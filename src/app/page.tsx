@@ -5,7 +5,6 @@ import FacultyButton from "@/components/Homepage/FacultyButton"
 export default function Home() {
   return (
     <main>
-      <Navbar />
       <div className="w-full h-[11.125rem] shrink-0 bg-gradient-to-b from-[#E23A7A] to-[#FFB5D1] mt-[3rem]">
         <h2 className="text-white pt-10 pl-10 font-[700] text-xl">CU GET LOVE</h2>
         <p className="text-white pl-10 font-[400]">Lorem ipsum dolorque delectus dolores voluptatibus suscipit</p>
