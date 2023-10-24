@@ -13,7 +13,7 @@ export default function Home() {
         <h1 className="flex justify-center items-center text-center text-[#E23A7A] text-2xl font-[600] pt-2">Faculty</h1>
         <div className="ml-7 mr-7 mt-4 grid grid-cols-3 gap-5">
           <FacultyButton name='ครุศาสตร์' icon='👨‍🏫' />
-          <FacultyButton name='ทันตแพทย์่' icon='🦷' />
+          <FacultyButton name='ทันตแพทย์' icon='🦷' />
           <FacultyButton name='สัตวแพทย์' icon='🐶' />
           <FacultyButton name='จิตวิทยา' icon='😵‍💫' />
           <FacultyButton name='นิติศาสตร์' icon='👩‍⚖️' />
