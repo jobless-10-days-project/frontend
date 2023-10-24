@@ -8,7 +8,7 @@ import { BsPersonFill } from "react-icons/bs";
 const navlinks = [
   {
     title: "Edit profile",
-    link: "/",
+    link: "/editProfile",
   },
   {
     title: "Incoming request",

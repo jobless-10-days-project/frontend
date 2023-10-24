@@ -16,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar profileImage="/meen.png" />
+        <div className="mt-[4rem]"></div>
         {children}
       </body>
     </html>
