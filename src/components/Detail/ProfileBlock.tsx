@@ -10,14 +10,14 @@ function ProfileBlock(props: any) {
             </div>
             <div className='pl-auto pr-auto flex justify-between'>
                 {
-                    previewImage.map((image, index) => {
-                        if (index == previewIndex) return (null)
-                        return (
-                            <div key={index} className='mt-2 w-[6rem] h-[6rem] overflow-hidden drop-shadow'>
+                    previewImage.map((image, index) =>
+                        (index == previewIndex) ||
+                        (
+                            <div key={index} className='mt-2 w-[6rem] h-[6rem] overflow-hidden drop-shadow' onClick={() => setPreviewIndex(index)}>
                                 <img className='h-full w-full align-top object-cover block' src={image} alt={`preview-img-${index}`} />
                             </div>
                         )
-                    })
+                    )
                 }
             </div>
         </div>

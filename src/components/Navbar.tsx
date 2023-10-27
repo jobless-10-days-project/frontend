@@ -57,7 +57,7 @@ export default function Navbar(props: any) {
 
               <Link href="/" className="md:block">
                 <div className="flex items-baseline">
-                  <img src="Logo.svg" className="w-44" alt="CUGetLove" />
+                  <img src="/Logo.svg" className="w-44" alt="CUGetLove" />
                 </div>
               </Link>
               <div className="flex w-20 justify-between">
@@ -66,7 +66,7 @@ export default function Navbar(props: any) {
                   onClick={handleOpen}
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-100"
                 >
-                  <img src="SearchIcon.svg" alt="search-icon" />
+                  <img src="/SearchIcon.svg" alt="search-icon" />
                 </button>
 
                 <button
@@ -74,7 +74,7 @@ export default function Navbar(props: any) {
                   onClick={handleOpen}
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-100"
                 >
-                  <img src="Login.svg" alt="login-icon" />
+                  <img src="/Login.svg" alt="login-icon" />
                 </button>
               </div>
             </div>
