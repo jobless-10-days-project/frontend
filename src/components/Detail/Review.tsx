@@ -5,8 +5,11 @@ export default function Review(props: any) {
     return (
         <div className="p-5 rounded-xl flex-col my-5 bg-white min-h-[8rem]">
             <div className="flex justify-between">
-                <div className="w-8 h-8 rounded-full overflow-hidden">
-                    <img src={props.profileImage} alt={`comment of ${props.name}`} />
+                <div className="flex">
+                    <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
+                        <img src={props.profileImage} alt={`comment of ${props.name}`} />
+                    </div>
+                    <span className="my-auto">{props.name}</span>
                 </div>
                 <div className="flex">
                     {

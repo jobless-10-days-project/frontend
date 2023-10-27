@@ -124,9 +124,8 @@ export default function Navbar(props: any) {
               {navlinks.map((link, index) => (
                 <a
                   key={index}
-                  className={`${
-                    colorlink[index % 2]
-                  } text-gray-100 block px-4 py-2 text-base font-medium`}
+                  className={`${colorlink[index % 2]
+                    } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}
@@ -135,7 +134,7 @@ export default function Navbar(props: any) {
             </div>
           </div>
         ) : (
-          <div className="bg-pink-600 z-[1050] fixed duration-1000 w-7/12 top-0 left-0 h-full -translate-x-full ">
+          <div className="bg-pink-600 z-[1050] fixed duration-1000 w-7/12 top-0 -left-1 h-full -translate-x-full ">
             <div className="flex items-center flex-col mb-10">
               <div className="flex justify-between px-3 py-2 w-full mb-3">
                 <p className="text-gray-100  px-3 py-2  text-2xl font-medium">
@@ -177,9 +176,8 @@ export default function Navbar(props: any) {
               {navlinks.map((link, index) => (
                 <a
                   key={index}
-                  className={`${
-                    colorlink[index % 2]
-                  } text-gray-100 block px-4 py-2 text-base font-medium`}
+                  className={`${colorlink[index % 2]
+                    } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}
