@@ -15,8 +15,9 @@ export default function ProfileDetail() {
     ]
     const averageScore = reviews.reduce((acc, cur) => acc + cur.score, 0) / reviews.length
     const [open, setOpen] = useState<Number>(0);
+    const [reviewScore, setReviewScore] = useState<number>(0);
     return (
-        <main className='mt-[4.3rem] w-[20rem] ml-auto mr-auto'>
+        <main className='mt-[4.3rem] w-[20rem] mx-auto'>
             {open ? (
                 <div className="bg-gray-900 opacity-60 z-[1000] fixed top-0 left-0 w-full h-full duration-1000"></div>
             ) : (
@@ -49,8 +50,8 @@ export default function ProfileDetail() {
                     <p className='font-bold mr-3 py-3'>Add a review</p>
                     {
                         star.map((_, index) => (
-                            <button key={index}>
-                                <AiOutlineStar size={20} color='#EEBD5C' />
+                            <button key={index} onClick={() => setReviewScore(index + 1)}>
+                                {index < reviewScore ? <AiFillStar size={20} color='#EEBD5C' /> : <AiOutlineStar size={20} color='#EEBD5C' />}
                             </button>
                         ))
                     }

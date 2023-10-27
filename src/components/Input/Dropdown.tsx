@@ -6,7 +6,7 @@ import { AiOutlineCaretDown, AiOutlineCaretUp } from "react-icons/ai";
 export default function Dropdown(props: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("");
-
+  const lists = [...props.lists]
   return (
     <div
       className="relative flex flex-col w-full mb-3 "
@@ -30,8 +30,8 @@ export default function Dropdown(props: any) {
 
       {isOpen && (
         <div className="bg-white absolute top-20 flex flex-col items-start rounded-lg p-2 w-full border-2 border-[#C2BEBE]  ">
-          {props.lists.map((item) => (
-            <button
+          {lists.map((item, index) => (
+            <button key={index}
               onClick={() => (setSelected(item), setIsOpen(false))}
               className="bg-white w-full rounded-lg p-4 text-left border-2 border-[#dedbdb] border-b-[#C2BEBE] "
             >
