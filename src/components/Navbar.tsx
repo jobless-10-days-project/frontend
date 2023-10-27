@@ -25,7 +25,7 @@ const navlinks = [
   },
   {
     title: "Logout",
-    link: "/",
+    link: "/first",
   },
 ];
 
@@ -109,7 +109,9 @@ export default function Navbar(props: any) {
                 <div className="p-2 rounded-md text-gray-100">
                   <BsPersonFill />
                 </div>
-                <p className="text-gray-100 text-base font-medium">Wiroonpuri</p>
+                <p className="text-gray-100 text-base font-medium">
+                  Wiroonpuri
+                </p>
               </div>
               <div>
                 <p className="text-gray-100 text-base font-medium">
@@ -122,8 +124,9 @@ export default function Navbar(props: any) {
               {navlinks.map((link, index) => (
                 <a
                   key={index}
-                  className={`${colorlink[index % 2]
-                    } text-gray-100 block px-4 py-2 text-base font-medium`}
+                  className={`${
+                    colorlink[index % 2]
+                  } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}
@@ -159,7 +162,9 @@ export default function Navbar(props: any) {
                 <div className="p-2 rounded-md text-gray-100">
                   <BsPersonFill />
                 </div>
-                <p className="text-gray-100 text-base font-medium">Wiroonpuri</p>
+                <p className="text-gray-100 text-base font-medium">
+                  Wiroonpuri
+                </p>
               </div>
               <div>
                 <p className="text-gray-100 text-base font-medium">
@@ -172,8 +177,9 @@ export default function Navbar(props: any) {
               {navlinks.map((link, index) => (
                 <a
                   key={index}
-                  className={`${colorlink[index % 2]
-                    } text-gray-100 block px-4 py-2 text-base font-medium`}
+                  className={`${
+                    colorlink[index % 2]
+                  } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}
@@ -190,6 +196,4 @@ export default function Navbar(props: any) {
       </main>
     </>
   );
-
 }
-
