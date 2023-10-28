@@ -1,14 +1,20 @@
 "use client";
 
+import { signup } from "@/api";
 import InputBox from "@/components/Input/InputBox";
+import { UserContext } from "@/model/User";
 import Link from "next/link";
-import { useState } from "react";
-export default function page() {
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
+export default function Page() {
+  const { setToken } = useContext(UserContext);
+  const { push } = useRouter();
   const [values, setValues] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
+
   const inputbox = [
     {
       id: 1,
@@ -44,6 +50,16 @@ export default function page() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    const { result: token, error } = await signup(
+      values.email,
+      values.password
+    );
+    if (token) {
+      setToken(token);
+      push("/editProfile");
+    } else {
+      alert("An error occurred: " + error);
+    }
   };
 
   const onChange = (e: any) => {
@@ -58,12 +74,7 @@ export default function page() {
           <h1 className="text-[24px] font-bold mb-16">Create Account</h1>
           <form onSubmit={handleSubmit}>
             {inputbox.map((input) => (
-              <InputBox
-                key={input.id}
-                {...input}
-                value={values[input.name]}
-                onChange={onChange}
-              />
+              <InputBox key={input.id} {...input} onChange={onChange} />
             ))}
             <div className="w-full flex justify-center mb-2 pt-4">
               <p className="text-[#ABA3A3] text-base font-medium">
@@ -73,14 +84,12 @@ export default function page() {
                 <p className="text-base font-bold ml-2">Login</p>
               </Link>
             </div>
-            <Link href="/edit">
-              <button
-                type="submit"
-                className="bg-[#E23A7A] text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl"
-              >
-                Create Account
-              </button>
-            </Link>
+            <button
+              type="submit"
+              className="bg-[#E23A7A] text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl"
+            >
+              Create Account
+            </button>
           </form>
         </div>
       </div>
