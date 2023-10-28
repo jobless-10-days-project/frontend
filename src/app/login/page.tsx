@@ -1,6 +1,7 @@
 "use client";
 
 import InputBox from "@/components/Input/InputBox";
+import axios from "axios";
 import Link from "next/link";
 import { FormEventHandler, useState } from "react";
 
@@ -30,17 +31,13 @@ export default function Page() {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3500/auth/signin", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        studentId: "1",
-        password: "1",
-      }),
-    });
-    const json = await response.json();
+    const body = {
+      studentId: values.email,
+      password: values.password
+    }
+    await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/auth/signin`, body).then(data => {
+      console.log(data)
+    })
   };
 
   const onChange = (e: any) => {

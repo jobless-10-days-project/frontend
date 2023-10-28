@@ -69,13 +69,12 @@ export default function Navbar(props: any) {
                   <img src="/SearchIcon.svg" alt="search-icon" />
                 </button>
 
-                <button
-                  type="button"
-                  onClick={handleOpen}
+                <Link
+                  href='/login'
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-100"
                 >
                   <img src="/Login.svg" alt="login-icon" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -124,9 +123,8 @@ export default function Navbar(props: any) {
               {navlinks.map((link, index) => (
                 <a
                   key={index}
-                  className={`${
-                    colorlink[index % 2]
-                  } text-gray-100 block px-4 py-2 text-base font-medium`}
+                  className={`${colorlink[index % 2]
+                    } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}
@@ -177,9 +175,8 @@ export default function Navbar(props: any) {
               {navlinks.map((link, index) => (
                 <a
                   key={index}
-                  className={`${
-                    colorlink[index % 2]
-                  } text-gray-100 block px-4 py-2 text-base font-medium`}
+                  className={`${colorlink[index % 2]
+                    } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}

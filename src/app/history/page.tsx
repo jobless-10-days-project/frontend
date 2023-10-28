@@ -1,4 +1,4 @@
-import SellerInfo from "@/components/็History/SellerInfo";
+import SellerInfo from "@/components/History/SellerInfo";
 
 export default function page() {
   const user = [
