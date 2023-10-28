@@ -40,6 +40,7 @@ export default function Page() {
       values.password
     );
     if (token) {
+      console.log(token);
       setToken(token);
     } else {
       alert("An error occurred: " + error);

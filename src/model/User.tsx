@@ -19,6 +19,11 @@ export function UserContextProvider({
   const [token, setToken] = useState<string | null>(null);
   const oldToken = usePrevious(token);
 
+  // load from local storage on mount
+  useEffect(() => {
+    setToken(localStorage.getItem("cugetloveJWT"));
+  }, []);
+
   useEffect(() => {
     if (oldToken !== token && token !== null) {
       localStorage.setItem("cugetloveJWT", token);
