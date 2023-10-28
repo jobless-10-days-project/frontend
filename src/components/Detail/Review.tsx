@@ -7,21 +7,21 @@ export default function Review(props: any) {
             <div className="flex justify-between">
                 <div className="flex">
                     <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
-                        <img src={props.profileImage} alt={`comment of ${props.name}`} />
+                        {/* <img src={props.profileImage} alt={`comment of ${props.name}`} /> */}
                     </div>
-                    <span className="my-auto">{props.name}</span>
+                    <span className="my-auto">{props.reviewerNickname}</span>
                 </div>
                 <div className="flex">
                     {
                         star.map((_, index) => {
-                            if (index < props.score) return (<div className='my-auto' key={index}><AiFillStar size={20} color='#EEBD5C' /></div>)
+                            if (index < props.reviewScore) return (<div className='my-auto' key={index}><AiFillStar size={20} color='#EEBD5C' /></div>)
                             return (<div className='my-auto' key={index}><AiOutlineStar size={20} color='#EEBD5C' /></div>)
                         })
                     }
                 </div>
             </div>
             <p className="mt-3 font-light text-sm">
-                {props.comment}
+                {props.reviewerText}
             </p>
         </div>
     )
