@@ -1,44 +1,87 @@
+"use client";
+
 import InputBox from "@/components/Input/InputBox";
 import Link from "next/link";
+import { useState } from "react";
 export default function page() {
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const inputbox = [
     {
-      section: "Username or Email",
-      text: "Enter Username of Email",
+      id: 1,
+      name: "email",
+      type: "email",
+      placeholder: "Enter Username of Email",
+      errorMessage: "It should be a valid email address!",
+      label: "Username or Email",
+      required: true,
     },
     {
-      section: "Password",
-      text: "Enter Password",
+      id: 2,
+      name: "password",
+      type: "text",
+      placeholder: "Enter Password",
+      errorMessage:
+        "Password should be 8-20 characters and include at least 1 letter, 1 number and 1 special character!",
+      label: "Password",
+      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
+      required: true,
     },
     {
-      section: "Confirm Password",
-      text: "Confirm Password",
+      id: 3,
+      name: "confirmPassword",
+      type: "text",
+      placeholder: "Confirm Password",
+      errorMessage: "Passwords don't match!",
+      label: "Confirm Password",
+      pattern: values.password,
+      required: true,
     },
   ];
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+  };
+
+  const onChange = (e: any) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="w-full h-screen">
       <div className="flex flex-col justify-between px-10 pt-10 pb-24 w-full h-full">
         <div>
           <img src="Logo2.svg" className="w-66 mb-4" alt="CUGetLove" />
           <h1 className="text-[24px] font-bold mb-16">Create Account</h1>
-          <InputBox section={inputbox[0].section} text={inputbox[0].text} />
-          <InputBox section={inputbox[1].section} text={inputbox[1].text} />
-          <InputBox section={inputbox[2].section} text={inputbox[2].text} />
-        </div>
-        <div>
-          <div className="w-full flex justify-center mb-2">
-            <p className="text-[#ABA3A3] text-base font-medium">
-              Already have an account?
-            </p>
-            <Link href="/login">
-              <p className="text-base font-bold ml-2">Login</p>
+          <form onSubmit={handleSubmit}>
+            {inputbox.map((input) => (
+              <InputBox
+                key={input.id}
+                {...input}
+                value={values[input.name]}
+                onChange={onChange}
+              />
+            ))}
+            <div className="w-full flex justify-center mb-2 pt-4">
+              <p className="text-[#ABA3A3] text-base font-medium">
+                Already have an account?
+              </p>
+              <Link href="/login">
+                <p className="text-base font-bold ml-2">Login</p>
+              </Link>
+            </div>
+            <Link href="/edit">
+              <button
+                type="submit"
+                className="bg-[#E23A7A] text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl"
+              >
+                Create Account
+              </button>
             </Link>
-          </div>
-          <Link href="/">
-            <button className="bg-[#E23A7A] text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl">
-              Create Account
-            </button>
-          </Link>
+          </form>
         </div>
       </div>
     </div>

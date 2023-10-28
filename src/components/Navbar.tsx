@@ -13,15 +13,15 @@ const navlinks = [
   },
   {
     title: "Incoming request",
-    link: "/",
+    link: "/incoming",
   },
   {
     title: "Response request",
-    link: "/",
+    link: "/response",
   },
   {
     title: "Purchase history",
-    link: "/",
+    link: "/history",
   },
   {
     title: "Logout",
@@ -124,8 +124,9 @@ export default function Navbar(props: any) {
               {navlinks.map((link, index) => (
                 <a
                   key={index}
-                  className={`${colorlink[index % 2]
-                    } text-gray-100 block px-4 py-2 text-base font-medium`}
+                  className={`${
+                    colorlink[index % 2]
+                  } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}
@@ -176,8 +177,9 @@ export default function Navbar(props: any) {
               {navlinks.map((link, index) => (
                 <a
                   key={index}
-                  className={`${colorlink[index % 2]
-                    } text-gray-100 block px-4 py-2 text-base font-medium`}
+                  className={`${
+                    colorlink[index % 2]
+                  } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}

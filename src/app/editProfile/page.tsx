@@ -7,54 +7,108 @@ import { useState } from "react";
 import Link from "next/link";
 
 function page() {
-  const inputbox = [
-    {
-      section: "Nickname",
-      text: "Enter Nickname",
-    },
-    {
-      section: "Age",
-      text: "Enter Age",
-    },
-    {
-      section: "Your Description / Bio",
-      text: "Enter Your Description / Bio",
-    },
-    {
-      section: "Your price",
-      text: "Enter Your rent price",
-    },
-    {
-      section: "Your LINE ID",
-      text: "Enter Your LINE ID",
-    },
-  ];
-
   const dropdown = [
     {
+      name: "faculty",
       section: "Faculty",
       text: "Please select your faculty",
       lists: ["วิศวกรรมศาสตร์", "วิทยาศาสตร์", "นิติศาสตร์"],
     },
     {
+      name: "degree",
       section: "Degree",
       text: "Please select your degree",
       lists: ["1", "2", "3", "4"],
     },
     {
+      name: "gender",
       section: "Gender",
       text: "Please select your gender",
       lists: ["ชาย", "หญิง"],
     },
   ];
 
+  const [values, setValues] = useState({
+    nickName: "",
+    age: "",
+    faculty: "",
+    degree: "",
+    gender: "",
+    description: "",
+    price: "",
+    lineId: "",
+  });
+
+  const onChange = (e: any) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
   const [isCheck, setIsCheck] = useState(false);
+
+  const inputbox = [
+    {
+      id: 1,
+      name: "nickName",
+      type: "text",
+      placeholder: "Enter Nickname",
+      label: "Nickname",
+      required: true,
+    },
+    {
+      id: 2,
+      name: "age",
+      type: "text",
+      placeholder: "Enter Age",
+      label: "Age",
+      errorMessage: "Please only enter numeric characters only for your Age!",
+      pattern: `^[0-9]+$`,
+      required: true,
+    },
+    {
+      id: 3,
+      name: "description",
+      type: "text",
+      placeholder: "Enter Your Description / Bio",
+      label: "Your Description / Bio",
+      required: { isCheck },
+    },
+    {
+      id: 4,
+      name: "price",
+      type: "text",
+      placeholder: "Enter Your rent price",
+      label: "Your Price",
+      errorMessage: "Please only enter numeric characters only for your Price!",
+      pattern: `^[0-9]+$`,
+      required: { isCheck },
+    },
+    {
+      id: 5,
+      name: "lineId",
+      type: "text",
+      placeholder: "Enter Your LINE ID",
+      label: "Your LINE ID",
+      required: { isCheck },
+    },
+  ];
+
   return (
     <div className="w-full h-full">
       <div className="p-10 w-full">
         <p className="text-4xl font-bold mb-4">Edit Profile</p>
-        <InputBox section={inputbox[0].section} text={inputbox[0].text} />
-        <InputBox section={inputbox[1].section} text={inputbox[1].text} />
+        <form>
+          {inputbox.map((input, index) => {
+            if (index < 2)
+              return (
+                <InputBox
+                  key={input.id}
+                  {...input}
+                  value={values[input.name]}
+                  onChange={onChange}
+                />
+              );
+          })}
+        </form>
         <Dropdown
           section={dropdown[0].section}
           text={dropdown[0].text}
@@ -100,8 +154,17 @@ function page() {
         </div>
         {!isCheck ? null : (
           <div className="mt-4">
-            <InputBox section={inputbox[2].section} text={inputbox[2].text} />
-            <InputBox section={inputbox[3].section} text={inputbox[3].text} />
+            {inputbox.map((input, index) => {
+              if (index >= 2)
+                return (
+                  <InputBox
+                    key={input.id}
+                    {...input}
+                    value={values[input.name]}
+                    onChange={onChange}
+                  />
+                );
+            })}
             <div className="relative flex flex-col w-full mb-3">
               <p className="text-base font-bold">Upload your preview picture</p>
               <form action="">

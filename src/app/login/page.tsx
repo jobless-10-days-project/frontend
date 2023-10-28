@@ -1,19 +1,45 @@
+"use client";
+
 import InputBox from "@/components/Input/InputBox";
 import Link from "next/link";
+import { useState } from "react";
+
 export default function page() {
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
   const inputbox = [
     {
-      section: "Username or Email",
-      text: "Enter Username of Email",
+      id: 1,
+      name: "email",
+      type: "text",
+      placeholder: "Enter Username of Email",
+      label: "Username or Email",
+      required: true,
     },
     {
-      section: "Password",
-      text: "Enter Password",
+      id: 2,
+      name: "password",
+      type: "password",
+      placeholder: "Enter Password",
+      label: "Password",
+      required: true,
     },
   ];
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+  };
+
+  const onChange = (e: any) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  console.log(values);
   return (
     <div className="w-full h-screen">
-      <div className="flex flex-col justify-between px-10 pt-10 pb-24 w-full h-full">
+      <div className="flex flex-col px-10 pt-10 pb-24 w-full h-full">
         <div>
           <img src="Logo2.svg" className="w-66 mb-4" alt="CUGetLove" />
           <h1 className="text-[24px] font-bold mb-4">Let's Sign you in.</h1>
@@ -21,23 +47,33 @@ export default function page() {
             Welcome back
             <br /> You've been missed!
           </p>
-          <InputBox section={inputbox[0].section} text={inputbox[0].text} />
-          <InputBox section={inputbox[1].section} text={inputbox[1].text} />
-        </div>
-        <div>
-          <div className="w-full flex justify-center mb-2">
-            <p className="text-[#ABA3A3] text-base font-medium">
-              Don't have an account?
-            </p>
-            <Link href="/register">
-              <p className="text-base font-bold ml-2">Register</p>
+          <form onSubmit={handleSubmit}>
+            {inputbox.map((input) => (
+              <InputBox
+                key={input.id}
+                {...input}
+                value={values[input.name]}
+                onChange={onChange}
+              />
+            ))}
+
+            <div className="w-full flex justify-center mb-2 pt-4">
+              <p className="text-[#ABA3A3] text-base font-medium">
+                Don't have an account?
+              </p>
+              <Link href="/register">
+                <p className="text-base font-bold ml-2">Register</p>
+              </Link>
+            </div>
+            <Link href="/">
+              <button
+                type="submit"
+                className="bg-black text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl"
+              >
+                Continue
+              </button>
             </Link>
-          </div>
-          <Link href="/">
-            <button className="bg-black text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl">
-              Continue
-            </button>
-          </Link>
+          </form>
         </div>
       </div>
     </div>
