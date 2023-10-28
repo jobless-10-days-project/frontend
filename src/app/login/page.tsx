@@ -1,15 +1,18 @@
 "use client";
 
 import InputBox from "@/components/Input/InputBox";
+import { UserContext } from "@/model/User";
 import axios from "axios";
 import Link from "next/link";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useContext, useState } from "react";
 
 export default function Page() {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
+  const { setToken } = useContext(UserContext);
+
   const inputbox = [
     {
       id: 1,
@@ -33,11 +36,14 @@ export default function Page() {
     e.preventDefault();
     const body = {
       studentId: values.email,
-      password: values.password
-    }
-    await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/auth/signin`, body).then(data => {
-      console.log(data)
-    })
+      password: values.password,
+    };
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/auth/signin`,
+      body
+    );
+    const token = response.data.access_token as string;
+    setToken(token);
   };
 
   const onChange = (e: any) => {
