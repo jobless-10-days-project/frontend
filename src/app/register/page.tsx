@@ -2,7 +2,7 @@
 
 import { signup } from "@/api";
 import InputBox from "@/components/Input/InputBox";
-import { UserContext } from "@/model/User";
+import { UserContext } from "@/contexts/User";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";

@@ -2,7 +2,7 @@
 
 import { signin } from "@/api";
 import InputBox from "@/components/Input/InputBox";
-import { UserContext } from "@/model/User";
+import { UserContext } from "@/contexts/User";
 import axios from "axios";
 import Link from "next/link";
 import { FormEventHandler, useContext, useState } from "react";
