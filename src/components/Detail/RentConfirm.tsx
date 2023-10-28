@@ -6,12 +6,12 @@ function Child(props: any) {
             <div className="flex justify-between mt-5">
                 <p className="mt-5 font-bold text-2xl font-['Sarabun']">{props.name}</p>
                 <div className="w-24 h-24 overflow-hidden rounded-full">
-                    <img className="object-hidden" src={props.images[0]} alt="nasImage" />
+                    {/* <img className="object-hidden" src={props.images[0]} alt="nasImage" /> */}
                 </div>
             </div>
             <div className="mt-3 py-2">
                 <span className="text-3xl font-bold mr-5">Price</span>
-                <span className="text-3xl font-semibold text-gray-300">{props.cost}</span>
+                <span className="text-3xl font-semibold text-gray-300">{props.price}</span>
             </div>
             <div className="w-full h-[0.1px] bg-gray-200"></div>
 
