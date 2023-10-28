@@ -1,5 +1,6 @@
 "use client";
 
+import { signin } from "@/api";
 import InputBox from "@/components/Input/InputBox";
 import { UserContext } from "@/model/User";
 import axios from "axios";
@@ -34,23 +35,21 @@ export default function Page() {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const body = {
-      studentId: values.email,
-      password: values.password,
-    };
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/auth/signin`,
-      body
+    const { result: token, error } = await signin(
+      values.email,
+      values.password
     );
-    const token = response.data.access_token as string;
-    setToken(token);
+    if (token) {
+      setToken(token);
+    } else {
+      alert("An error occurred: " + error);
+    }
   };
 
   const onChange = (e: any) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  console.log(values);
   return (
     <div className="w-full h-screen">
       <div className="flex flex-col px-10 pt-10 pb-24 w-full h-full">
