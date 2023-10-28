@@ -2,9 +2,9 @@
 
 import InputBox from "@/components/Input/InputBox";
 import Link from "next/link";
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 
-export default function page() {
+export default function Page() {
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -28,8 +28,19 @@ export default function page() {
     },
   ];
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    const response = await fetch("http://localhost:3500/auth/signin", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        studentId: "1",
+        password: "1",
+      }),
+    });
+    const json = await response.json();
   };
 
   const onChange = (e: any) => {
@@ -48,13 +59,8 @@ export default function page() {
             <br /> You've been missed!
           </p>
           <form onSubmit={handleSubmit}>
-            {inputbox.map((input) => (
-              <InputBox
-                key={input.id}
-                {...input}
-                value={values[input.name]}
-                onChange={onChange}
-              />
+            {inputbox.map((input, index) => (
+              <InputBox key={input.id} {...input} onChange={onChange} />
             ))}
 
             <div className="w-full flex justify-center mb-2 pt-4">
@@ -65,14 +71,13 @@ export default function page() {
                 <p className="text-base font-bold ml-2">Register</p>
               </Link>
             </div>
-            <Link href="/">
-              <button
-                type="submit"
-                className="bg-black text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl"
-              >
-                Continue
-              </button>
-            </Link>
+
+            <button
+              type="submit"
+              className="bg-black text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl"
+            >
+              Continue
+            </button>
           </form>
         </div>
       </div>
