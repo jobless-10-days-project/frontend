@@ -17,7 +17,7 @@ export function UserContextProvider({
   finishedInitialize,
 }: {
   children: React.ReactNode;
-    finishedInitialize: () => void;
+  finishedInitialize: () => void;
 }) {
   // const { finishedInitialize } = props;
   const [token, setToken] = useState<string | null>(null);
@@ -27,7 +27,7 @@ export function UserContextProvider({
   useEffect(() => {
     setToken(localStorage.getItem("cugetloveJWT"));
     finishedInitialize();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
