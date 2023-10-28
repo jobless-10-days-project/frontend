@@ -9,22 +9,28 @@ import Link from "next/link";
 function page() {
   const dropdown = [
     {
+      id: 1,
       name: "faculty",
       section: "Faculty",
       text: "Please select your faculty",
       lists: ["วิศวกรรมศาสตร์", "วิทยาศาสตร์", "นิติศาสตร์"],
+      zIdex: "5",
     },
     {
+      id: 2,
       name: "degree",
       section: "Degree",
       text: "Please select your degree",
       lists: ["1", "2", "3", "4"],
+      zIdex: "4",
     },
     {
+      id: 3,
       name: "gender",
       section: "Gender",
       text: "Please select your gender",
       lists: ["ชาย", "หญิง"],
+      zIdex: "3",
     },
   ];
 
@@ -96,37 +102,21 @@ function page() {
     <div className="w-full h-full">
       <div className="p-10 w-full">
         <p className="text-4xl font-bold mb-4">Edit Profile</p>
-        <form>
-          {inputbox.map((input, index) => {
-            if (index < 2)
-              return (
-                <InputBox
-                  key={input.id}
-                  {...input}
-                  value={values[input.name]}
-                  onChange={onChange}
-                />
-              );
-          })}
-        </form>
-        <Dropdown
-          section={dropdown[0].section}
-          text={dropdown[0].text}
-          lists={dropdown[0].lists}
-          zIndex="5"
-        />
-        <Dropdown
-          section={dropdown[1].section}
-          text={dropdown[1].text}
-          lists={dropdown[1].lists}
-          zIndex="4"
-        />
-        <Dropdown
-          section={dropdown[2].section}
-          text={dropdown[2].text}
-          lists={dropdown[2].lists}
-          zIndex="3"
-        />
+        {inputbox.map((input, index) => {
+          if (index < 2)
+            return <InputBox key={input.id} {...input} onChange={onChange} />;
+        })}
+        {dropdown.map((input) => (
+          <Dropdown
+            key={input.id}
+            name={input.name}
+            section={input.section}
+            text={input.text}
+            lists={input.lists}
+            zIndex={input.zIdex}
+            onChange={onChange}
+          />
+        ))}
         <div className="flex w-full pt-3">
           <div className="relative">
             {!isCheck ? (
@@ -157,12 +147,7 @@ function page() {
             {inputbox.map((input, index) => {
               if (index >= 2)
                 return (
-                  <InputBox
-                    key={input.id}
-                    {...input}
-                    value={values[input.name]}
-                    onChange={onChange}
-                  />
+                  <InputBox key={input.id} {...input} onChange={onChange} />
                 );
             })}
             <div className="relative flex flex-col w-full mb-3">
