@@ -1,5 +1,6 @@
 "use client";
 import usePrevious from "@/hooks/usePrevious";
+import useCapturedRouting from "@/routing/useCapturedRouting";
 import { createContext, useEffect, useState } from "react";
 
 export type UserContextData = {
@@ -19,8 +20,15 @@ export function UserContextProvider({
   finishedInitialize: () => void;
 }) {
   // const { finishedInitialize } = props;
+  const router = useCapturedRouting();
   const [token, setToken] = useState<string | null>(null);
   const oldToken = usePrevious(token);
+
+  const logout = () => {
+    setToken(null);
+    localStorage.removeItem("cugetloveJWT");
+    router.push("/first");
+  };
 
   // load from local storage on mount
   useEffect(() => {
@@ -30,14 +38,12 @@ export function UserContextProvider({
   }, []);
 
   useEffect(() => {
-    if (oldToken !== token && token !== null) {
+    if (oldToken !== token && token !== null)
       localStorage.setItem("cugetloveJWT", token);
-      console.log("saved to local storage");
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
-  const value = { token, setToken };
+  const value = { token, setToken, logout };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
