@@ -51,3 +51,25 @@ export const signup = async (email: string, password: string): Promise<APIResult
         return { error: (error.response?.data as any).message }
     }
 }
+
+/**
+ * 
+ * @returns boolean indicating whether the user has edited the profile, or error message 
+ * if error exists. 
+ */
+export const userEditedProfile = async (token: string): Promise<APIResult<boolean>> => {
+    try {
+        const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/profilestatus`,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }
+        );
+        return { result: response.data };
+    } catch (e) {
+        const error = e as AxiosError;
+        return { error: (error.response?.data as any).message }
+    }
+}
