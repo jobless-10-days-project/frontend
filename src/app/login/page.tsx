@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { FormEventHandler, useContext, useState } from "react";
 
 export default function Page() {
-  const { push } = useCapturedRouting();
+  const { push } = useCapturedRouting("");
   const [values, setValues] = useState({
     email: "",
     password: "",

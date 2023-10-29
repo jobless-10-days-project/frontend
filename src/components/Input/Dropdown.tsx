@@ -3,6 +3,12 @@
 export default function Dropdown(props: any) {
   const lists = [...props.lists];
 
+  const isEmpty = () => {
+    if (props.value == "") {
+      return false;
+    }
+    return true;
+  };
   return (
     <div
       className="relative flex flex-col w-full mb-3 "
@@ -16,10 +22,10 @@ export default function Dropdown(props: any) {
         name={props.name}
       >
         <option
-          value=""
-          className=" bg-white text-[#ABA3A3] rounded-lg text-left border-2 border-[#dedbdb] border-b-[#C2BEBE] "
+          value={props.value}
+          className=" bg-gray-300 text-[#ABA3A3] rounded-lg text-left border-2 border-[#dedbdb] border-b-[#C2BEBE] "
         >
-          {props.text}
+          {isEmpty() ? props.value : props.text}
         </option>
         {lists.map((item, index) => (
           <option

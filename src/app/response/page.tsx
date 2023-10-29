@@ -14,6 +14,7 @@ export default function page() {
   const [seller, setSeller] = useState([
     {
       name: "Mode",
+
       image: "../meen2.jpeg",
       price: "10000",
       status: "Accepted",

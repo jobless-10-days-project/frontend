@@ -105,26 +105,47 @@ export default function Page() {
       required: { isCheck },
     },
   ];
-
+  console.log(values);
   return (
     <div className="w-full h-full">
       <div className="p-10 w-full">
         <p className="text-4xl font-bold mb-4">Edit Profile</p>
-        {inputbox.map((input, index) => {
-          if (index < 2)
-            return <InputBox key={input.id} {...input} onChange={onChange} />;
-        })}
-        {dropdown.map((input) => (
-          <Dropdown
-            key={input.id}
-            name={input.name}
-            section={input.section}
-            text={input.text}
-            lists={input.lists}
-            zIndex={input.zIdex}
-            onChange={onChange}
-          />
-        ))}
+        <InputBox
+          {...inputbox[0]}
+          value={values.nickName}
+          onChange={onChange}
+        />
+        <InputBox {...inputbox[1]} value={values.age} onChange={onChange} />
+
+        <Dropdown
+          name={dropdown[0].name}
+          section={dropdown[0].section}
+          text={dropdown[0].text}
+          lists={dropdown[0].lists}
+          zIndex={dropdown[0].zIdex}
+          value={values.faculty}
+          onChange={onChange}
+        />
+
+        <Dropdown
+          name={dropdown[1].name}
+          section={dropdown[1].section}
+          text={dropdown[1].text}
+          lists={dropdown[1].lists}
+          zIndex={dropdown[1].zIdex}
+          value={values.degree}
+          onChange={onChange}
+        />
+
+        <Dropdown
+          name={dropdown[2].name}
+          section={dropdown[2].section}
+          text={dropdown[2].text}
+          lists={dropdown[2].lists}
+          zIndex={dropdown[2].zIdex}
+          value={values.gender}
+          onChange={onChange}
+        />
         <div className="relative flex flex-col w-full mb-3">
           <p className="text-base font-bold">Upload your preview picture</p>
           <form action="">
@@ -160,17 +181,24 @@ export default function Page() {
             )}
           </div>
           <p className="text-base font-bold pl-4 pt-1">will you sell?</p>
-
         </div>
         {!isCheck ? null : (
           <div className="mt-4">
-            {inputbox.map((input, index) => {
-              if (index >= 2)
-                return (
-                  <InputBox key={input.id} {...input} onChange={onChange} />
-                );
-            })}
-
+            <InputBox
+              {...inputbox[2]}
+              value={values.description}
+              onChange={onChange}
+            />
+            <InputBox
+              {...inputbox[3]}
+              value={values.price}
+              onChange={onChange}
+            />
+            <InputBox
+              {...inputbox[4]}
+              value={values.lineId}
+              onChange={onChange}
+            />
             <div className="relative flex flex-col w-full">
               <p className="text-base font-bold">
                 Upload your supplement pictures <br /> (3 pictures)
@@ -213,4 +241,4 @@ export default function Page() {
       </div>
     </div>
   );
-};
+}
