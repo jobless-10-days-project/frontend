@@ -43,10 +43,18 @@ function page() {
     description: "",
     price: "",
     lineId: "",
+    mainImg: "",
+    subImg1: "",
+    subImg2: "",
+    subImg3: "",
   });
 
   const onChange = (e: any) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const fileSelectedHandler = (e: any) => {
+    setValues({ ...values, [e.target.name]: e.target.files[0] });
   };
 
   const [isCheck, setIsCheck] = useState(false);
@@ -155,6 +163,8 @@ function page() {
               <form action="">
                 <input
                   type="file"
+                  onChange={fileSelectedHandler}
+                  name="mainImg"
                   className="w-full  py-8 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
                 />
               </form>
@@ -166,14 +176,20 @@ function page() {
               <form action="">
                 <input
                   type="file"
+                  onChange={fileSelectedHandler}
+                  name="subImg1"
                   className="w-full py-4 mb-2 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
                 />
                 <input
                   type="file"
+                  onChange={fileSelectedHandler}
+                  name="subImg2"
                   className="w-full py-4 mb-2 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
                 />
                 <input
                   type="file"
+                  onChange={fileSelectedHandler}
+                  name="subImg3"
                   className="w-full py-4 mb-2 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
                 />
               </form>

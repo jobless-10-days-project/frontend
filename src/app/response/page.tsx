@@ -1,3 +1,4 @@
+import ConfirmRes from "@/components/Response/ConfirmRes";
 import SellerRes from "@/components/Response/SellerRes";
 
 export default function page() {
@@ -61,6 +62,10 @@ export default function page() {
             {user.map((props, index) => (
               <SellerRes key={index} {...props} />
             ))}
+            {user.map((props, index) => {
+              if (props.status === "Accepted")
+                return <ConfirmRes key={index} {...props} />;
+            })}
           </div>
         </div>
       </div>
