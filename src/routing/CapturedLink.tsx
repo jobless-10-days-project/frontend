@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { CSSProperties, PropsWithChildren } from "react";
 import { fireBeforeRouteChange } from "./routing";
+import { useRouter } from "next/navigation";
 
 /**
  *
@@ -15,17 +16,18 @@ export const CapturedLink: React.FC<
   //       NProgress.done();
   //     };
   //   }, []);
+  const router = useRouter();
+
+  const navigate = async () => {
+    const next = await fireBeforeRouteChange(href);
+    console.log('next', next)
+    if (next === true) router.push(href); // must be boolean true
+    else if (typeof next === "string") router.push(next);
+  };
 
   return (
-    <>
-      <Link
-        style={style}
-        className={className}
-        href={href}
-        onClick={() => fireBeforeRouteChange(href)}
-      >
-        {children}
-      </Link>
-    </>
+    <a style={style} className={className} onClick={navigate}>
+      {children}
+    </a>
   );
 };
