@@ -53,8 +53,12 @@ export default function Page() {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const fileSelectedHandler = (e: any) => {
-    setValues({ ...values, [e.target.name]: e.target.files[0] });
+  const fileSelectedHandler = async (e: any) => {
+    const data = new FileReader();
+    data.addEventListener("load", () => {
+      setValues({ ...values, [e.target.name]: data.result });
+    });
+    data.readAsDataURL(e.target.files[0]);
   };
 
   const [isCheck, setIsCheck] = useState(false);
@@ -151,7 +155,7 @@ export default function Page() {
           <form action="">
             <input
               type="file"
-              onChange={fileSelectedHandler}
+              onChange={(e) => fileSelectedHandler(e)}
               name="mainImg"
               className="w-full  py-8 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
             />

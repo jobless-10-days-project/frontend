@@ -1,7 +1,10 @@
 "use client";
 
+import { UserDto } from "@/api/type";
 import SellerInfo from "@/components/History/SellerInfo";
-import { useState } from "react";
+import { UserContext } from "@/contexts/User";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 
 export default function page() {
   const [history, setHistory] = useState([
@@ -30,6 +33,24 @@ export default function page() {
     setHistory(newhistory);
   };
 
+  const { token } = useContext(UserContext)
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+  // 6532043021
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log(data.data[0])
+        setHistory(data.data[0].purchaseHistories);
+      });
+  }, []);
+
   return (
     <div className="w-full h-full">
       <div className="w-full h-full p-8">
@@ -57,8 +78,8 @@ export default function page() {
           <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
           <div>
             {history.map((props, index) => (
-              <div>
-                <SellerInfo key={index} {...props} />
+              <div key={index}>
+                <SellerInfo {...props} />
                 <div className="ml-2">
                   <button
                     onClick={() => removeElement(index)}

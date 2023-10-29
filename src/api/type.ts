@@ -31,3 +31,11 @@ export type FilterUserDto = {
     age: number | undefined;
     gender: string | undefined;
 }
+
+export type ReviewDto = {
+    studentId: string;
+    picture: string;
+    nickname: string;
+    score: number;
+    text: string;
+}

@@ -1,8 +1,11 @@
 "use client";
 
+import { useState } from "react";
+
 export default function Dropdown(props: any) {
   const lists = [...props.lists];
 
+  const [isSelected, setIsSelected] = useState(false);
   const isEmpty = () => {
     if (props.value == "") {
       return false;
@@ -11,7 +14,7 @@ export default function Dropdown(props: any) {
   };
   return (
     <div
-      className="relative flex flex-col w-full mb-3 "
+      className="relative flex flex-col w-full mb-3 font-['Sarabun'] "
       style={{ zIndex: Number(props.zIndex) }}
     >
       <p className="text-base font-bold">{props.section}</p>
@@ -19,7 +22,9 @@ export default function Dropdown(props: any) {
       <select
         className="bg-white text-[#ABA3A3] text-base font-medium pl-4 rounded-lg p-2 w-full border-2 border-[#C2BEBE]"
         onChange={props.onChange}
+        onClick={() => setIsSelected(true)}
         name={props.name}
+        style={{ color: !isSelected ? "#ABA3A3" : "#000000" }}
       >
         <option
           value={props.value}
