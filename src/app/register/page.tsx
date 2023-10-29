@@ -4,12 +4,13 @@ import { signup } from "@/api";
 import InputBox from "@/components/Input/InputBox";
 import { UserContext } from "@/contexts/User";
 import { CapturedLink } from "@/routing/CapturedLink";
+import useCapturedRouting from "@/routing/useCapturedRouting";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 export default function Page() {
   const { setToken } = useContext(UserContext);
-  const { push } = useRouter();
+  const { push } = useCapturedRouting();
   const [values, setValues] = useState({
     email: "",
     password: "",

@@ -1,6 +1,6 @@
 "use client";
 import { UserContextProvider } from "@/contexts/User";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar";
