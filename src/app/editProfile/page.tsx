@@ -125,6 +125,17 @@ export default function Page() {
             onChange={onChange}
           />
         ))}
+        <div className="relative flex flex-col w-full mb-3">
+          <p className="text-base font-bold">Upload your preview picture</p>
+          <form action="">
+            <input
+              type="file"
+              onChange={fileSelectedHandler}
+              name="mainImg"
+              className="w-full  py-8 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
+            />
+          </form>
+        </div>
         <div className="flex w-full pt-3">
           <div className="relative">
             {!isCheck ? (
@@ -149,6 +160,7 @@ export default function Page() {
             )}
           </div>
           <p className="text-base font-bold pl-4 pt-1">will you sell?</p>
+
         </div>
         {!isCheck ? null : (
           <div className="mt-4">
@@ -158,17 +170,7 @@ export default function Page() {
                   <InputBox key={input.id} {...input} onChange={onChange} />
                 );
             })}
-            <div className="relative flex flex-col w-full mb-3">
-              <p className="text-base font-bold">Upload your preview picture</p>
-              <form action="">
-                <input
-                  type="file"
-                  onChange={fileSelectedHandler}
-                  name="mainImg"
-                  className="w-full  py-8 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
-                />
-              </form>
-            </div>
+
             <div className="relative flex flex-col w-full">
               <p className="text-base font-bold">
                 Upload your supplement pictures <br /> (3 pictures)
