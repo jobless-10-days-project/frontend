@@ -30,14 +30,9 @@ const navlinks = [
 ];
 
 export default function Navbar(props: any) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [searchOpen, setSearchOpen] = useState<boolean>(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
   const colorlink = ["bg-[#F1367D]", "bg-[#BE2E65]"];
   return (
     <>
@@ -48,7 +43,7 @@ export default function Navbar(props: any) {
               <div className="flex items-center">
                 <button
                   type="button"
-                  onClick={handleOpen}
+                  onClick={() => setOpen(true)}
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-100 "
                 >
                   <FaBars />
@@ -63,7 +58,7 @@ export default function Navbar(props: any) {
               <div className="flex w-20 justify-between">
                 <button
                   type="button"
-                  onClick={handleOpen}
+                  onClick={() => setSearchOpen(true)}
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-100"
                 >
                   <img src="/SearchIcon.svg" alt="search-icon" />
@@ -89,7 +84,7 @@ export default function Navbar(props: any) {
                 </p>
                 <button
                   type="button"
-                  onClick={handleClose}
+                  onClick={() => setOpen(false)}
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-100"
                 >
                   <FaTimes />
@@ -141,7 +136,7 @@ export default function Navbar(props: any) {
                 </p>
                 <button
                   type="button"
-                  onClick={handleClose}
+                  onClick={() => setOpen(false)}
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-100"
                 >
                   <FaTimes />
@@ -185,7 +180,7 @@ export default function Navbar(props: any) {
             </div>
           </div>
         )}
-        {open ? (
+        {open || searchOpen ? (
           <div className="bg-gray-900 opacity-60 z-[1000] fixed top-0 left-0 w-full h-full duration-1000"></div>
         ) : (
           <div className="bg-gray-900 opacity-0 -z-50 fixed top-0 left-0 w-full h-full duration-1000"></div>

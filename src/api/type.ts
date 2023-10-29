@@ -23,3 +23,11 @@ export type UserDto = {
     averageScore: number;
     reviews: Review[];
 }
+
+export type FilterUserDto = {
+    nickname: string | undefined;
+    faculty: string | undefined;
+    degree: number | undefined;
+    age: number | undefined;
+    gender: string | undefined;
+}
