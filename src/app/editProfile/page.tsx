@@ -4,9 +4,9 @@ import Dropdown from "@/components/Input/Dropdown";
 import InputBox from "@/components/Input/InputBox";
 import { BsCheck } from "react-icons/bs";
 import { useState } from "react";
-import Link from "next/link";
+import { CapturedLink } from "@/routing/CapturedLink";
 
-function page() {
+export default function Page() {
   const dropdown = [
     {
       id: 1,
@@ -197,20 +197,18 @@ function page() {
           </div>
         )}
         <div className="flex w-full justify-around mt-4">
-          <Link href="/">
+          <CapturedLink href="/">
             <button className="bg-white text-[#ABA3A3] border-2 border-[#D9D9D9] py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl">
-              Cancle
+              Cancel
             </button>
-          </Link>
-          <Link href="/">
+          </CapturedLink>
+          <CapturedLink href="/">
             <button className="bg-[#5AD94E] text-white border-none py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl">
               Save
             </button>
-          </Link>
+          </CapturedLink>
         </div>
       </div>
     </div>
   );
-}
-
-export default page;
+};

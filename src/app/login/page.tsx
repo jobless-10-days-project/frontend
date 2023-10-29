@@ -3,11 +3,13 @@
 import { signin } from "@/api";
 import InputBox from "@/components/Input/InputBox";
 import { UserContext } from "@/contexts/User";
-import axios from "axios";
-import Link from "next/link";
+import { CapturedLink } from "@/routing/CapturedLink";
+import useCapturedRouting from "@/routing/useCapturedRouting";
+import { useRouter } from "next/navigation";
 import { FormEventHandler, useContext, useState } from "react";
 
 export default function Page() {
+  const { push } = useCapturedRouting();
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -40,8 +42,8 @@ export default function Page() {
       values.password
     );
     if (token) {
-      console.log(token);
       setToken(token);
+      push("/");
     } else {
       alert("An error occurred: " + error);
     }
@@ -70,9 +72,9 @@ export default function Page() {
               <p className="text-[#ABA3A3] text-base font-medium">
                 Don't have an account?
               </p>
-              <Link href="/register">
+              <CapturedLink href="/register">
                 <p className="text-base font-bold ml-2">Register</p>
-              </Link>
+              </CapturedLink>
             </div>
 
             <button

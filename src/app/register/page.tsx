@@ -3,12 +3,14 @@
 import { signup } from "@/api";
 import InputBox from "@/components/Input/InputBox";
 import { UserContext } from "@/contexts/User";
+import { CapturedLink } from "@/routing/CapturedLink";
+import useCapturedRouting from "@/routing/useCapturedRouting";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 export default function Page() {
   const { setToken } = useContext(UserContext);
-  const { push } = useRouter();
+  const { push } = useCapturedRouting();
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -80,9 +82,9 @@ export default function Page() {
               <p className="text-[#ABA3A3] text-base font-medium">
                 Already have an account?
               </p>
-              <Link href="/login">
+              <CapturedLink href="/login">
                 <p className="text-base font-bold ml-2">Login</p>
-              </Link>
+              </CapturedLink>
             </div>
             <button
               type="submit"

@@ -1,5 +1,6 @@
-import Link from "next/link";
-export default function page() {
+import { CapturedLink } from "@/routing/CapturedLink";
+
+export default function Page() {
   return (
     <div className="w-full h-full">
       <div className="p-10 w-full flex flex-col items-center">
@@ -10,16 +11,16 @@ export default function page() {
           incididunt
         </p>
         <div className="w-full h-32 flex flex-col justify-between">
-          <Link href="/login">
+          <CapturedLink href="/login">
             <button className="bg-black text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl">
               Login
             </button>
-          </Link>
-          <Link href="/register">
+          </CapturedLink>
+          <CapturedLink href="/register">
             <button className="bg-[#E23A7A] text-white border-none py-3 w-full flex items-center justify-center font-semibold text-2xl rounded-xl">
               Register
             </button>
-          </Link>
+          </CapturedLink>
         </div>
       </div>
     </div>
