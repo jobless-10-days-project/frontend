@@ -37,6 +37,7 @@ export default function Search() {
             headers: headers,
             data: filter_search
         }).then(data => {
+            console.log(data.data)
             setFilteredStudent(data.data.filter(v => {
                 for (let prop in filter_search) {
                     if (filter_search[prop] == undefined) continue;
@@ -48,11 +49,15 @@ export default function Search() {
         });
     }, [param]);
 
-    return filteredStudent ? (
+    return filteredStudent ? filteredStudent.length ? (
         <main>
             <div className="grid grid-cols-2 gap-5 content-center mt-[8rem]">
                 {filteredStudent.map((props, index) => (<StudentCard key={index} {...props} />))}
             </div>
+        </main>
+    ) : (
+        <main className="font-['Montserrat']">
+            <p className="text-4xl font-bold text-center absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]">Not found user</p>
         </main>
     ) : (
         <LoadingUser />

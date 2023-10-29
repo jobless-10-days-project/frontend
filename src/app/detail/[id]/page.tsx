@@ -24,11 +24,12 @@ export default function ProfileDetail({ params }: { params: any }) {
     // 6532043021
     useEffect(() => {
         axios
-            .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/stu/${id}`, {
+            .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/detail/${id}`, {
                 headers: headers,
             })
             .then((data) => {
-                setDetails(data.data);
+                console.log(data.data[0])
+                setDetails(data.data[0]);
             });
     }, []);
     const [open, setOpen] = useState<Number>(0);
@@ -47,17 +48,17 @@ export default function ProfileDetail({ params }: { params: any }) {
             />
             {/* <ProfileBlock image={images} /> */}
             <div className="ml-auto mr-auto mt-2  font-['Sarabun']">
-                <span className="font-bold"> {details.nickname} </span>
+                <p className="font-bold inline"> {details.nickname} </p>
                 <div className="inline max-w-fit ml-1 mt-3 text-[0.68rem] text-center text-white bg-red-900 rounded-[9px] px-3 py-1 font-thin">{`${details?.faculty} ปี ${details?.degree}`}</div>
                 {details.sellingStatus ? (
                     <div className="my-2">
-                        <span className="font-bold mr-1">Status:</span>
-                        <span className="font-bold text-[#229318]">พร้อมบริการ</span>
+                        <p className="inline font-bold mr-1">Status:</p>
+                        <p className="inline font-bold text-[#229318]">พร้อมบริการ</p>
                     </div>
                 ) : (
                     <div className="my-2">
-                        <span className="font-bold mr-1">Status:</span>
-                        <span className="font-bold text-red-600">ไม่พร้อมบริการ</span>
+                        <p className="inline font-bold mr-1">Status:</p>
+                        <p className="inline font-bold text-red-600">ไม่พร้อมบริการ</p>
                     </div>
                 )}
                 <p className="font-light text-xs my-1">{details.description}</p>

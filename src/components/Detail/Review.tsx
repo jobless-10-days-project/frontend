@@ -14,7 +14,7 @@ export default function Review(props: any) {
                 <div className="flex">
                     {
                         star.map((_, index) => {
-                            if (index < props.reviewScore) return (<div className='my-auto' key={index}><AiFillStar size={20} color='#EEBD5C' /></div>)
+                            if (index < props.reviewerScore) return (<div className='my-auto' key={index}><AiFillStar size={20} color='#EEBD5C' /></div>)
                             return (<div className='my-auto' key={index}><AiOutlineStar size={20} color='#EEBD5C' /></div>)
                         })
                     }

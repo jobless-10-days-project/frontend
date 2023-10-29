@@ -22,9 +22,9 @@ export default function Page() {
       id: 1,
       name: "email",
       type: "email",
-      placeholder: "Enter Username of Email",
+      placeholder: "Enter Student ID",
       errorMessage: "It should be a valid email address!",
-      label: "Username or Email",
+      label: "Student ID",
       required: true,
     },
     {

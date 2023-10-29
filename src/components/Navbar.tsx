@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { BsPersonFill } from "react-icons/bs";
 import Link from "next/link";
 import Searchbox from "./Searchbox";
 import { CapturedLink } from "@/routing/CapturedLink";
+import { UserContext } from "@/contexts/User";
 
 const navlinks = [
   {
@@ -25,10 +26,7 @@ const navlinks = [
     title: "Purchase history",
     link: "/history",
   },
-  {
-    title: "Logout",
-    link: "/first",
-  },
+
 ];
 
 export default function Navbar(props: any) {
@@ -36,6 +34,7 @@ export default function Navbar(props: any) {
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
 
   const colorlink = ["bg-[#F1367D]", "bg-[#BE2E65]"];
+  const { token, logout } = useContext(UserContext);
   return (
     <>
       <Searchbox state={searchOpen} closePopup={() => setSearchOpen(false)} />
@@ -118,16 +117,27 @@ export default function Navbar(props: any) {
             </div>
 
             <div className="ox-2 pt-2 pb-3 ">
-              {navlinks.map((link, index) => (
-                <CapturedLink
-                  key={index}
-                  className={`${colorlink[index % 2]
-                    } text-gray-100 block px-4 py-2 text-base font-medium`}
-                  href={link.link}
-                >
-                  {link.title}
-                </CapturedLink>
-              ))}
+              <div onClick={() => setOpen(false)}>
+                {navlinks.map((link, index) => (
+                  <CapturedLink
+                    key={index}
+                    className={`${colorlink[index % 2]
+                      } text-gray-100 block px-4 py-2 text-base font-medium`}
+                    href={link.link}
+                  >
+                    {link.title}
+                  </CapturedLink>
+                ))}
+                <div onClick={logout}>
+                  <CapturedLink
+                    className={`${colorlink[colorlink.length % 2]
+                      } text-gray-100 block px-4 py-2 text-base font-medium`}
+                    href="/first"
+                  >
+                    Logout
+                  </CapturedLink>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
@@ -180,6 +190,13 @@ export default function Navbar(props: any) {
                   {link.title}
                 </CapturedLink>
               ))}
+              <CapturedLink
+                className={`${colorlink[colorlink.length % 2]
+                  } text-gray-100 block px-4 py-2 text-base font-medium`}
+                href="/first"
+              >
+                Logout
+              </CapturedLink>
             </div>
           </div>
         )}
