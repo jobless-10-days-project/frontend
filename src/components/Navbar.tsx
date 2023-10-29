@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { BsPersonFill } from "react-icons/bs";
 import Link from "next/link";
+import Searchbox from "./Searchbox";
 import { CapturedLink } from "@/routing/CapturedLink";
 
 const navlinks = [
@@ -37,6 +38,7 @@ export default function Navbar(props: any) {
   const colorlink = ["bg-[#F1367D]", "bg-[#BE2E65]"];
   return (
     <>
+      <Searchbox state={searchOpen} closePopup={() => setSearchOpen(false)} />
       <main className="font-['Montserrat']">
         <div className="bg-[#E23A7A] fixed w-full z-50 top-0">
           <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,14 +119,14 @@ export default function Navbar(props: any) {
 
             <div className="ox-2 pt-2 pb-3 ">
               {navlinks.map((link, index) => (
-                <a
+                <CapturedLink
                   key={index}
                   className={`${colorlink[index % 2]
                     } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}
-                </a>
+                </CapturedLink>
               ))}
             </div>
           </div>
@@ -169,14 +171,14 @@ export default function Navbar(props: any) {
 
             <div className="ox-2 pt-2 pb-3 ">
               {navlinks.map((link, index) => (
-                <a
+                <CapturedLink
                   key={index}
                   className={`${colorlink[index % 2]
                     } text-gray-100 block px-4 py-2 text-base font-medium`}
                   href={link.link}
                 >
                   {link.title}
-                </a>
+                </CapturedLink>
               ))}
             </div>
           </div>
