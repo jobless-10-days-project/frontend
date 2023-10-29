@@ -2,31 +2,13 @@
 
 import { UserDto } from "@/api/type";
 import SellerInfo from "@/components/History/SellerInfo";
+import LoadingUser from "@/components/LoadingUser";
 import { UserContext } from "@/contexts/User";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
 export default function page() {
-  const [history, setHistory] = useState([
-    {
-      name: "Median",
-      image: "../meen2.jpeg",
-      price: "10000",
-      date: "20/08/2023",
-    },
-    {
-      name: "Mode",
-      image: "../meen3.jpeg",
-      price: "30000",
-      date: "21/08/2023",
-    },
-    {
-      name: "SD",
-      image: "../meen2.jpeg",
-      price: "20000",
-      date: "22/08/2023",
-    },
-  ]);
+  const [history, setHistory] = useState(undefined);
 
   const removeElement = (index: Number) => {
     const newhistory = history.filter((_, i) => i !== index);
@@ -51,7 +33,7 @@ export default function page() {
       });
   }, []);
 
-  return (
+  return history ? (
     <div className="w-full h-full">
       <div className="w-full h-full p-8">
         <div className="flex justify-end mb-4">
@@ -95,5 +77,5 @@ export default function page() {
         </div>
       </div>
     </div>
-  );
+  ) : (<LoadingUser />)
 }

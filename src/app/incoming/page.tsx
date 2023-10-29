@@ -63,7 +63,7 @@ export default function page() {
           <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
           <div>
             {user.map((props, index) => (
-              <div>
+              <div key={index}>
                 <BuyerInfo key={index} {...props} />
                 <div className="ml-2 flex justify-between w-5/12">
                   <button className="bg-[#5AD94E] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg">

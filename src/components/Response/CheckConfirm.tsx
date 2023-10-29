@@ -3,16 +3,16 @@ function Child(props: any) {
     <div className="flex-col h-full justify-between">
       <p className="font-bold text-xl">Are you sure?</p>
       <div className="flex justify-between mt-5">
-        <p className="mt-5 font-bold text-2xl font-['Sarabun']">{props.name}</p>
+        <p className="mt-5 font-bold text-2xl font-['Sarabun']">{props.nickname}</p>
         <div className="w-24 h-24 overflow-hidden rounded-full">
           <img className="object-hidden" src={props.image} alt="nasImage" />
         </div>
       </div>
       <div className="mt-3 py-2">
-        <span className="text-3xl font-bold mr-5">Price</span>
-        <span className="text-3xl font-semibold text-gray-300">
+        <p className="text-3xl font-bold mr-5 inline">Price</p>
+        <p className="text-3xl font-semibold text-gray-300 inline">
           {props.price}
-        </span>
+        </p>
       </div>
       <div className="w-full h-[0.1px] bg-gray-200"></div>
 

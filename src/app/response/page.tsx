@@ -13,7 +13,7 @@ export default function page() {
 
   const [seller, setSeller] = useState([
     {
-      name: "Mode",
+      nickname: "Mode",
 
       image: "../meen2.jpeg",
       price: "10000",
@@ -21,21 +21,21 @@ export default function page() {
       lineId: "modemode",
     },
     {
-      name: "Moden",
+      nickname: "Moden",
       image: "../meen3.jpeg",
       price: "30000",
       status: "Accepted",
       lineId: "modenmoden",
     },
     {
-      name: "Mean",
+      nickname: "Mean",
       image: "../meen3.jpeg",
       price: "20000",
       status: "Pending",
       lineId: "meanmean",
     },
     {
-      name: "SD",
+      nickname: "SD",
       image: "../meen3.jpeg",
       price: "30000",
       status: "Rejected",
@@ -165,7 +165,7 @@ export default function page() {
           <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
           <div>
             {seller.map((props, index) => (
-              <div>
+              <div key={index}>
                 <SellerRes key={index} {...props} />
                 <div className="ml-2 flex">
                   {getIsAccepted(props) ? (

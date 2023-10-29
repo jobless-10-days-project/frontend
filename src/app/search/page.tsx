@@ -57,7 +57,7 @@ export default function Search() {
         </main>
     ) : (
         <main className="font-['Montserrat']">
-            <p className="text-4xl font-bold text-center absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]">Not found user</p>
+            <p className="text-4xl font-bold text-center absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] preline "> <pre>4🩷4</pre> Your 😘💗 Not Found</p>
         </main>
     ) : (
         <LoadingUser />

@@ -19,7 +19,7 @@ export default function SellerRes(props: any) {
           />
         </div>
         <p className="m-auto  text-[#ABA3A3] text-base font-medium">
-          {props.name}
+          {props.nickname}
         </p>
         <p className="m-auto  text-[#ABA3A3] text-base font-medium">
           {props.price}

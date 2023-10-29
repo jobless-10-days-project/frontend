@@ -18,7 +18,6 @@ export default function InputBox(props: any) {
         <input
           {...inputProps}
           onChange={onChange}
-          onBlur={handleFocus}
           value={value}
           onFocus={() =>
             inputProps.name === "confirmPassword" && setFocused(true)

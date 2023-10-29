@@ -12,6 +12,7 @@ function Child(props: any) {
     const onChange = (e: any) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
+    const faculties = ['Engineering', 'Dentistry', 'Vet', 'Psychology', 'Law', 'Political']
     return (
         // name faculty degree age gender
         <div className="flex-col h-full justify-between mx-5">
@@ -40,7 +41,7 @@ function Child(props: any) {
                 value=""
                 section="Faculty"
                 text="Please select your faculty"
-                lists={["Engineering", "วิทยาศาสตร์", "นิติศาสตร์"]}
+                lists={faculties}
                 zIndex={5}
             />
             <InputBox
