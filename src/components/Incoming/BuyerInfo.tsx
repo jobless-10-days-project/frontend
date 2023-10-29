@@ -5,7 +5,7 @@ export default function BuyerInfo(props: any) {
         <div className="m-auto flex justify-center items-center w-16 h-16">
           <img
             src={props.image}
-            className="rounded-full w-full h-full"
+            className="rounded-full w-full h-full object-cover"
             alt=""
           />
         </div>
