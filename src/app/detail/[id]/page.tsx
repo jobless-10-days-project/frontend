@@ -8,6 +8,7 @@ import RentConfirm from "@/components/Detail/RentConfirm";
 import axios from "axios";
 import { UserDto } from "@/api/type";
 import { UserContext } from "@/contexts/User";
+import LoadingUser from "@/components/LoadingUser";
 
 export default function ProfileDetail({ params }: { params: any }) {
     const { token } = useContext(UserContext)
@@ -133,36 +134,6 @@ export default function ProfileDetail({ params }: { params: any }) {
             </div>
         </main>
     ) : (
-        <div className="border border-[#E23A7A] shadow rounded-md p-4 max-w-sm w-full h-[20rem] mx-auto mt-[13rem]">
-            <div className="animate-pulse flex space-x-4">
-                <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-                <div className="flex-1 space-y-6 py-1">
-                    <div className="h-2 bg-slate-200 rounded"></div>
-                    <div className="space-y-3">
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                        </div>
-                        <div className="h-2 bg-slate-200 rounded"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <LoadingUser />
     );
 }
