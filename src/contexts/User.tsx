@@ -6,10 +6,13 @@ import { createContext, useEffect, useState } from "react";
 export type UserContextData = {
   token: string | null;
   setToken: (s: string | null) => void;
+  logout: () => void;
 };
+
 export const UserContext = createContext<UserContextData>({
   token: null,
   setToken: () => {},
+  logout: () => {},
 });
 
 export function UserContextProvider({
