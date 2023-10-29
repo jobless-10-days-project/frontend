@@ -12,10 +12,10 @@ export default function Home() {
   ]
 
   const studentCards = [
-    { faculty: 'วิศวกรรมศาสตร์', gender: 'ชาย', year: 2, desc: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen3.jpeg', color: "#640000", id: 0 },
-    { faculty: 'Alien', gender: 'Humangao', year: 100, desc: 'เอเลี่ยนประหลาด', imageUrl: '/humun0.webp', color: "#006500", id: 1 },
-    { faculty: 'วิศวกรรมศาสตร์', gender: 'Helicopter', year: 3, desc: 'เอเลี่ยนประหลาด', imageUrl: '/meen3.jpeg', color: "#000000", id: 2 },
-    { faculty: 'วิศวกรรมศาสตร์', gender: 'ชาย', year: 1, desc: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen2.jpeg', color: "#327F03", id: 3 },
+    { faculty: 'วิศวกรรมศาสตร์', gender: 'ชาย', year: 2, description: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen3.jpeg', color: "#640000", id: 0 },
+    { faculty: 'Alien', gender: 'Humangao', year: 100, description: 'เอเลี่ยนประหลาด', imageUrl: '/humun0.webp', color: "#006500", id: 1 },
+    { faculty: 'วิศวกรรมศาสตร์', gender: 'Helicopter', year: 3, description: 'เอเลี่ยนประหลาด', imageUrl: '/meen3.jpeg', color: "#000000", id: 2 },
+    { faculty: 'วิศวกรรมศาสตร์', gender: 'ชาย', year: 1, description: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen2.jpeg', color: "#327F03", id: 3 },
   ]
 
   return (
