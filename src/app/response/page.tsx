@@ -1,5 +1,9 @@
+"use client";
+
+import CheckConfirm from "@/components/Response/CheckConfirm";
 import ConfirmRes from "@/components/Response/ConfirmRes";
 import SellerRes from "@/components/Response/SellerRes";
+import { useState } from "react";
 
 export default function page() {
   const Info = {
@@ -7,28 +11,128 @@ export default function page() {
     total: "10000",
   };
 
-  const user = [
+  const [seller, setSeller] = useState([
     {
       name: "Mode",
       image: "../meen2.jpeg",
       price: "10000",
       status: "Accepted",
+      lineId: "modemode",
+    },
+    {
+      name: "Moden",
+      image: "../meen3.jpeg",
+      price: "30000",
+      status: "Accepted",
+      lineId: "modenmoden",
     },
     {
       name: "Mean",
       image: "../meen3.jpeg",
       price: "20000",
       status: "Pending",
+      lineId: "meanmean",
     },
     {
       name: "SD",
       image: "../meen3.jpeg",
       price: "30000",
       status: "Rejected",
+      lineId: "sdsd",
     },
-  ];
+  ]);
+
+  const [open, setOpen] = useState<Number>(0);
+  const [confirm, setConfirm] = useState({});
+  const [confirmList, setConfirmList] = useState<any[]>([]);
+  const getBtnText = (props: any) => {
+    let btnText = "";
+    if (props.status === "Accepted") {
+      btnText = "Check & Confirm";
+    } else if (props.status === "Pending") {
+      btnText = "Confirm";
+    } else if (props.status === "Rejected") {
+      btnText = "Delete";
+    }
+    return btnText;
+  };
+
+  const getBtnColor = (props: any) => {
+    let btnColor = "";
+    if (props.status === "Accepted") {
+      btnColor = "#5AD94E";
+    } else if (props.status === "Pending") {
+      btnColor = "#ABA3A3";
+    } else if (props.status === "Rejected") {
+      btnColor = "#DE0043";
+    }
+    return btnColor;
+  };
+
+  const getIsRejected = (props: any) => {
+    let isRejected = false;
+
+    if (props.status === "Rejected") {
+      isRejected = true;
+    }
+    return isRejected;
+  };
+
+  const getIsAccepted = (props: any) => {
+    let isAccepted = false;
+
+    if (props.status === "Accepted") {
+      isAccepted = true;
+    }
+    return isAccepted;
+  };
+
+  const Accepted = (props: any) => {
+    const update = seller.filter((element) => {
+      return element !== props;
+    });
+    setSeller(update);
+  };
+  const cancelAccepted = (props: any, index: Number) => {
+    const newseller = seller.filter((_, i) => i !== index);
+    setSeller(newseller);
+  };
+
+  const cancelPending = (props: any, index: Number) => {
+    const newseller = seller.filter((_, i) => i !== index);
+    setSeller(newseller);
+  };
+
+  const Delete = (props: any, index: Number) => {
+    const newseller = seller.filter((_, i) => i !== index);
+    setSeller(newseller);
+  };
+
+  const addConfirm = (props: any) => {
+    const isFound = confirmList.some((element) => {
+      if (element === props) {
+        return true;
+      }
+      return false;
+    });
+    if (!isFound) {
+      setConfirmList([...confirmList, props]);
+    }
+    Accepted(props);
+  };
+  console.log(confirmList);
   return (
     <div className="w-full h-full">
+      {open ? (
+        <div className="bg-gray-900 opacity-60 z-[1000] fixed top-0 left-0 w-full h-full duration-1000"></div>
+      ) : (
+        <div className="bg-gray-900 opacity-0 -z-50 fixed top-0 left-0 w-full h-full duration-1000"></div>
+      )}
+      <CheckConfirm
+        closePopup={() => setOpen(0)}
+        confirmPopup={() => (addConfirm(confirm), setOpen(0))}
+        {...{ ...confirm, state: open }}
+      />
       <div className="w-full h-full p-8">
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -59,12 +163,59 @@ export default function page() {
           </div>
           <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
           <div>
-            {user.map((props, index) => (
-              <SellerRes key={index} {...props} />
+            {seller.map((props, index) => (
+              <div>
+                <SellerRes key={index} {...props} />
+                <div className="ml-2 flex">
+                  {getIsAccepted(props) ? (
+                    <div>
+                      <button
+                        onClick={() => (setConfirm(props), setOpen(1))}
+                        className="text-white border-none py-1 px-2 font-semibold text-sm rounded-lg mr-2"
+                        style={{ background: getBtnColor(props) }}
+                      >
+                        {getBtnText(props)}
+                      </button>
+
+                      <button
+                        onClick={() => cancelAccepted(props, index)}
+                        className="text-[#ABA3A3] bg-white border-[#ABA3A3] border-[1.5px] py-1 px-2 font-semibold text-sm rounded-lg"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : null}
+                  {getIsRejected(props) ? (
+                    <button
+                      onClick={() => Delete(props, index)}
+                      className="text-white border-none py-1 px-2 font-semibold text-sm rounded-lg mr-2"
+                      style={{ background: getBtnColor(props) }}
+                    >
+                      {getBtnText(props)}
+                    </button>
+                  ) : null}
+                  {!getIsRejected(props) && !getIsAccepted(props) ? (
+                    <div>
+                      <button
+                        className="text-white border-none py-1 px-2 font-semibold text-sm rounded-lg mr-2"
+                        style={{ background: getBtnColor(props) }}
+                      >
+                        {getBtnText(props)}
+                      </button>
+                      <button
+                        onClick={() => cancelPending(props, index)}
+                        className="text-[#ABA3A3] bg-white border-[#ABA3A3] border-[1.5px] py-1 px-2 font-semibold text-sm rounded-lg"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+                <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
+              </div>
             ))}
-            {user.map((props, index) => {
-              if (props.status === "Accepted")
-                return <ConfirmRes key={index} {...props} />;
+            {confirmList.map((props, index) => {
+              return <ConfirmRes key={index} {...props} />;
             })}
           </div>
         </div>

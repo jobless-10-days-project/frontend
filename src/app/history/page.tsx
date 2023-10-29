@@ -1,7 +1,10 @@
+"use client";
+
 import SellerInfo from "@/components/History/SellerInfo";
+import { useState } from "react";
 
 export default function page() {
-  const user = [
+  const [history, setHistory] = useState([
     {
       name: "Median",
       image: "../meen2.jpeg",
@@ -20,7 +23,13 @@ export default function page() {
       price: "20000",
       date: "22/08/2023",
     },
-  ];
+  ]);
+
+  const removeElement = (index: Number) => {
+    const newhistory = history.filter((_, i) => i !== index);
+    setHistory(newhistory);
+  };
+
   return (
     <div className="w-full h-full">
       <div className="w-full h-full p-8">
@@ -47,8 +56,19 @@ export default function page() {
           </div>
           <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
           <div>
-            {user.map((props, index) => (
-              <SellerInfo key={index} {...props} />
+            {history.map((props, index) => (
+              <div>
+                <SellerInfo key={index} {...props} />
+                <div className="ml-2">
+                  <button
+                    onClick={() => removeElement(index)}
+                    className="bg-white border-[1.5px] border-[#ABA3A3] py-1 px-2 text-[#ABA3A3] font-semibold text-sm rounded-lg"
+                  >
+                    Delete
+                  </button>
+                </div>
+                <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
+              </div>
             ))}
           </div>
         </div>
