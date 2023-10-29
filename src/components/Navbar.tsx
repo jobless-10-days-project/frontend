@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { BsPersonFill } from "react-icons/bs";
 import Link from "next/link";
+import { CapturedLink } from "@/routing/CapturedLink";
 
 const navlinks = [
   {
@@ -55,11 +56,11 @@ export default function Navbar(props: any) {
                 </button>
               </div>
 
-              <Link href="/" className="md:block">
+              <CapturedLink href="/" className="md:block">
                 <div className="flex items-baseline">
                   <img src="/Logo.svg" className="w-44" alt="CUGetLove" />
                 </div>
-              </Link>
+              </CapturedLink>
               <div className="flex w-20 justify-between">
                 <button
                   type="button"
@@ -69,12 +70,12 @@ export default function Navbar(props: any) {
                   <img src="/SearchIcon.svg" alt="search-icon" />
                 </button>
 
-                <Link
+                <CapturedLink
                   href='/login'
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-100"
                 >
                   <img src="/Login.svg" alt="login-icon" />
-                </Link>
+                </CapturedLink>
               </div>
             </div>
           </div>
