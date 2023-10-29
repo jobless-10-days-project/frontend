@@ -24,6 +24,10 @@ export default function ConfirmRes(props: any) {
         <button className="bg-[#06C755] text-white border-none py-1 px-4 font-semibold text-sm rounded-lg mr-2">
           LINE
         </button>
+
+        <p className="text-[#06C755] text-base font-medium">
+          LINE Id: {props.lineId}
+        </p>
       </div>
       <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
     </div>

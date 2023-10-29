@@ -1,4 +1,7 @@
+"use client";
+
 import BuyerInfo from "@/components/Incoming/BuyerInfo";
+import { useState } from "react";
 
 export default function page() {
   const Info = {
@@ -6,7 +9,7 @@ export default function page() {
     price: "10000",
   };
 
-  const user = [
+  const [user, setUser] = useState([
     {
       name: "Mode",
       image: "../meen2.jpeg",
@@ -19,7 +22,13 @@ export default function page() {
       age: "21",
       gender: "ชาย",
     },
-  ];
+  ]);
+
+  const decline = (index: Number) => {
+    const newuser = user.filter((_, i) => i !== index);
+    setUser(newuser);
+  };
+
   return (
     <div className="w-full h-full">
       <div className="w-full h-full p-8">
@@ -54,7 +63,21 @@ export default function page() {
           <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
           <div>
             {user.map((props, index) => (
-              <BuyerInfo key={index} {...props} />
+              <div>
+                <BuyerInfo key={index} {...props} />
+                <div className="ml-2 flex justify-between w-5/12">
+                  <button className="bg-[#5AD94E] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg">
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => decline(index)}
+                    className="bg-[#FF4545] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg"
+                  >
+                    Decline
+                  </button>
+                </div>
+                <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
+              </div>
             ))}
           </div>
         </div>

@@ -1,21 +1,12 @@
 export default function SellerRes(props: any) {
   let statusColor = "";
-  let btnColor = "";
-  let btnText = "";
-  let isRejected = false;
+
   if (props.status === "Accepted") {
     statusColor = "#2DA926";
-    btnColor = "#5AD94E";
-    btnText = "Check & Confirm";
   } else if (props.status === "Pending") {
     statusColor = "#267AA9";
-    btnColor = "#ABA3A3";
-    btnText = "Confirm";
   } else if (props.status === "Rejected") {
     statusColor = "#DE005D";
-    btnColor = "#DE0043";
-    btnText = "Delete";
-    isRejected = true;
   }
   return (
     <div>
@@ -41,20 +32,6 @@ export default function SellerRes(props: any) {
           {props.status}
         </p>
       </div>
-      <div className="ml-2 flex">
-        <button
-          className="text-white border-none py-1 px-2 font-semibold text-sm rounded-lg mr-2"
-          style={{ background: btnColor }}
-        >
-          {btnText}
-        </button>
-        {!isRejected ? (
-          <button className="text-[#ABA3A3] bg-white border-[#ABA3A3] border-[1.5px] py-1 px-2 font-semibold text-sm rounded-lg">
-            Cancel
-          </button>
-        ) : null}
-      </div>
-      <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
     </div>
   );
 }
