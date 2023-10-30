@@ -65,7 +65,7 @@ const Page = observer(() => {
     degree: "",
     gender: "",
     description: "",
-    balance: "",
+    price: "",
     lineId: "",
     previewPicture: "",
     supplementPictures: [],
@@ -77,7 +77,7 @@ const Page = observer(() => {
         headers: headers,
       })
       .then((data) => {
-        console.log(data.data[0]);
+        // console.log(data.data[0]);
         setValues(data.data[0]);
       });
   }, []);
@@ -250,7 +250,7 @@ const Page = observer(() => {
             />
             <InputBox
               {...inputbox[3]}
-              value={values.balance}
+              value={values.price}
               onChange={onChange}
             />
             <InputBox
