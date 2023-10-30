@@ -91,8 +91,7 @@ const RouteChecker = observer(
         );
 
         setChecking(true);
-        checkAuthRoute(pathname, true, true);
-        setChecking(false);
+        checkAuthRoute(pathname, true, true).then(() => setChecking(false));
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInitialized]);
