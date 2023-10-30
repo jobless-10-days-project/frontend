@@ -16,6 +16,7 @@ const Page = observer(() => {
     email: "",
     password: "",
   });
+  const [loggingIn, setLoggingIn] = useState(false);
   // const { token: curToken, setToken } = useContext(UserContext);
 
   const inputbox = [
@@ -39,6 +40,9 @@ const Page = observer(() => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
+    setLoggingIn(true);
+
     const { result: token, error } = await signin(
       values.email,
       values.password
@@ -46,11 +50,13 @@ const Page = observer(() => {
     if (token) {
       // console.log("before curToken", curToken, "setting to", token);
       await userStore.logout();
-      when(() => userStore.token != null).then(() => push("/"))
+      when(() => userStore.token != null).then(() => push("/"));
       userStore.setToken(token);
     } else {
       toast("An error occurred: " + error);
     }
+
+    setLoggingIn(false);
   };
 
   const onChange = (e: any) => {
@@ -58,7 +64,9 @@ const Page = observer(() => {
   };
 
   return (
-    <div className="w-full h-screen">
+    <div
+      className={`w-full h-screen ${loggingIn ? "opacity-50" : "opacity-100"}`}
+    >
       <div className="flex flex-col px-10 pt-10 pb-24 w-full h-full">
         <div>
           <img src="Logo2.svg" className="w-66 mb-4" alt="CUGetLove" />
@@ -67,7 +75,12 @@ const Page = observer(() => {
             Welcome back
             <br /> You've been missed!
           </p>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            className={
+              loggingIn ? "pointer-events-none" : "pointer-events-auto"
+            }
+          >
             {inputbox.map((input, index) => (
               <InputBox key={input.id} {...input} onChange={onChange} />
             ))}

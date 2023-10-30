@@ -17,6 +17,7 @@ const Page = observer(() => {
     password: "",
     confirmPassword: "",
   });
+  const [registering, setRegistering] = useState(false);
 
   const inputbox = [
     {
@@ -53,16 +54,22 @@ const Page = observer(() => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    setRegistering(true);
+
     const { result: token, error } = await signup(
       values.email,
       values.password
     );
     if (token) {
-      when(() => userStore.token === token).then(() => push("/editProfile"));
+      await userStore.logout();
+      when(() => userStore.token != null).then(() => push("/editProfile"));
       userStore.setToken(token);
     } else {
       toast("An error occurred: " + error);
     }
+
+    setRegistering(false);
   };
 
   const onChange = (e: any) => {
@@ -70,12 +77,21 @@ const Page = observer(() => {
   };
 
   return (
-    <div className="w-full h-screen">
+    <div
+      className={`w-full h-screen ${
+        registering ? "opacity-50" : "opacity-100"
+      }`}
+    >
       <div className="flex flex-col justify-between px-10 pt-10 pb-24 w-full h-full">
         <div>
           <img src="Logo2.svg" className="w-66 mb-4" alt="CUGetLove" />
           <h1 className="text-[24px] font-bold mb-16">Create Account</h1>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            className={
+              registering ? "pointer-events-none" : "pointer-events-auto"
+            }
+          >
             {inputbox.map((input) => (
               <InputBox key={input.id} {...input} onChange={onChange} />
             ))}
