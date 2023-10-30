@@ -3,36 +3,40 @@
 import Dropdown from "@/components/Input/Dropdown";
 import InputBox from "@/components/Input/InputBox";
 import { BsCheck } from "react-icons/bs";
-import { UserContext } from "@/contexts/User";
 import { useState, useContext, useEffect } from "react";
 import { CapturedLink } from "@/routing/CapturedLink";
 import axios from "axios";
+import { userStore } from "@/model/User";
+import { reaction } from "mobx";
 
 export default function Page() {
-  const { token } = useContext(UserContext);
-
-  const headers = {
+  const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
-  };
-
-  /* useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
-        headers: headers,
+    Authorization: "Bearer " + userStore.token,
+  });
+  reaction(
+    () => userStore.token,
+    (token) =>
+      setHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       })
-      .then((data) => {
-        console.log(data.data[0]);
-        values(data.data[0].purchaseHistories);
-      });
-  }, []); */
+  );
+
   const dropdown = [
     {
       id: 1,
       name: "faculty",
       section: "Faculty",
       text: "Please select your faculty",
-      lists: ["วิศวกรรมศาสตร์", "วิทยาศาสตร์", "นิติศาสตร์"],
+      lists: [
+        "Engineering",
+        "Dentistry",
+        "Vet",
+        "Psychology",
+        "Law",
+        "Political",
+      ],
       zIdex: "5",
     },
     {
@@ -48,42 +52,75 @@ export default function Page() {
       name: "gender",
       section: "Gender",
       text: "Please select your gender",
-      lists: ["ชาย", "หญิง"],
+      lists: ["male", "female"],
       zIdex: "3",
     },
   ];
 
   const [values, setValues] = useState({
-    nickName: "",
+    nickname: "",
     age: "",
     faculty: "",
     degree: "",
     gender: "",
     description: "",
-    price: "",
+    balance: "",
     lineId: "",
-    mainImg: "",
-    subImg1: "",
-    subImg2: "",
-    subImg3: "",
+    previewPicture: "",
+    supplementPictures: [],
   });
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log(data.data[0]);
+        setValues(data.data[0]);
+      });
+  }, []);
 
   const onChange = (e: any) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const fileSelectedHandler = async (e: any) => {
-    setValues({ ...values, [e.target.name]: e.target.files[0] });
+    setValues({ ...values, [e.target.name]: e.target.files[0].name });
   };
 
-  const submitForm = () => {};
+  const supfileSelectedHandler = async (e: any) => {
+    let index = 0;
+    if (e.target.name === "supplementPictures1") {
+      index = 0;
+    } else if (e.target.name === "supplementPictures2") {
+      index = 1;
+    } else if (e.target.name === "supplementPictures3") {
+      index = 2;
+    }
+    values.supplementPictures[index] = e.target.files[0].name;
+  };
+
+  const submitForm = () => {
+    axios
+      .patch(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/update`,
+        values,
+        {
+          headers: headers,
+        }
+      )
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
   const [isCheck, setIsCheck] = useState(false);
 
   const inputbox = [
     {
       id: 1,
-      name: "nickName",
+      name: "nickname",
       type: "text",
       placeholder: "Enter Nickname",
       label: "Nickname",
@@ -133,7 +170,7 @@ export default function Page() {
         <p className="text-4xl font-bold mb-4">Edit Profile</p>
         <InputBox
           {...inputbox[0]}
-          value={values.nickName}
+          value={values.nickname}
           onChange={onChange}
         />
         <InputBox {...inputbox[1]} value={values.age} onChange={onChange} />
@@ -173,7 +210,7 @@ export default function Page() {
             <input
               type="file"
               onChange={(e) => fileSelectedHandler(e)}
-              name="mainImg"
+              name="previewPicture"
               className="w-full  py-8 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
             />
           </form>
@@ -212,7 +249,7 @@ export default function Page() {
             />
             <InputBox
               {...inputbox[3]}
-              value={values.price}
+              value={values.balance}
               onChange={onChange}
             />
             <InputBox
@@ -227,20 +264,20 @@ export default function Page() {
               <form action="">
                 <input
                   type="file"
-                  onChange={fileSelectedHandler}
-                  name="subImg1"
+                  onChange={supfileSelectedHandler}
+                  name="supplementPictures1"
                   className="w-full py-4 mb-2 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
                 />
                 <input
                   type="file"
-                  onChange={fileSelectedHandler}
-                  name="subImg2"
+                  onChange={supfileSelectedHandler}
+                  name="supplementPictures2"
                   className="w-full py-4 mb-2 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
                 />
                 <input
                   type="file"
-                  onChange={fileSelectedHandler}
-                  name="subImg3"
+                  onChange={supfileSelectedHandler}
+                  name="supplementPictures3"
                   className="w-full py-4 mb-2 placeholder-[#ABA3A3] text-base font-medium pl-4 rounded-xl border-2 border-[#C2BEBE] "
                 />
               </form>
@@ -249,15 +286,15 @@ export default function Page() {
         )}
         <div className="flex w-full justify-around mt-4">
           <CapturedLink href="/">
-            <button
-              onClick={() => submitForm()}
-              className="bg-white text-[#ABA3A3] border-2 border-[#D9D9D9] py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl"
-            >
+            <button className="bg-white text-[#ABA3A3] border-2 border-[#D9D9D9] py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl">
               Cancel
             </button>
           </CapturedLink>
           <CapturedLink href="/">
-            <button className="bg-[#5AD94E] text-white border-none py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl">
+            <button
+              onClick={submitForm}
+              className="bg-[#5AD94E] text-white border-none py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl"
+            >
               Save
             </button>
           </CapturedLink>
