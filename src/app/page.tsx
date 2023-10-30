@@ -1,5 +1,10 @@
+"use client";
 import StudentCard from "@/components/Homepage/StudentCard"
 import FacultyButton from "@/components/Homepage/FacultyButton"
+import { UserContext } from "@/contexts/User"
+import { useContext, useEffect, useState } from "react"
+import axios from "axios";
+import LoadingUser from "@/components/LoadingUser";
 
 export default function Home() {
   const facultyButtons = [
@@ -11,14 +16,32 @@ export default function Home() {
     { faculty: "Political", icon: '🤵' }
   ]
 
-  const studentCards = [
-    { faculty: 'Engineering', gender: 'ชาย', degree: 2, description: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen3.jpeg', id: 0 },
-    { faculty: 'Vet', gender: 'Humangao', degree: 100, description: 'เอเลี่ยนประหลาด', imageUrl: '/humun0.webp', color: "#006500", id: 1 },
-    { faculty: 'Law', gender: 'Helicopter', degree: 3, description: 'เอเลี่ยนประหลาด', imageUrl: '/meen3.jpeg', color: "#000000", id: 2 },
-    { faculty: 'Political', gender: 'ชาย', degree: 1, description: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen2.jpeg', color: "#327F03", id: 3 },
-  ]
+  // const studentCards = [
+  //   { faculty: 'Engineering', gender: 'ชาย', degree: 2, description: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen3.jpeg', id: 0 },
+  //   { faculty: 'Vet', gender: 'Humangao', degree: 100, description: 'เอเลี่ยนประหลาด', imageUrl: '/humun0.webp', color: "#006500", id: 1 },
+  //   { faculty: 'Law', gender: 'Helicopter', degree: 3, description: 'เอเลี่ยนประหลาด', imageUrl: '/meen3.jpeg', color: "#000000", id: 2 },
+  //   { faculty: 'Political', gender: 'ชาย', degree: 1, description: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen2.jpeg', color: "#327F03", id: 3 },
+  // ]
+  const { token } = useContext(UserContext)
 
-  return (
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+  // 6532043021
+  const [studentCards, setStudentCards] = useState();
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/filter`,
+      headers: headers,
+    }).then(data => {
+      console.log(data.data)
+      setStudentCards(data.data)
+    });
+  }, []);
+
+  return studentCards ? (
     <main>
       <div className="w-full h-[11.125rem] shrink-0 bg-gradient-to-b from-[#E23A7A] to-[#FFB5D1] font-['Montserrat']">
         <h2 className="text-white pt-10 pl-10 font-[700] text-xl">CU GET LOVE</h2>
@@ -34,5 +57,7 @@ export default function Home() {
         {studentCards.map((props, index) => (<StudentCard key={index} {...props} />))}
       </div>
     </main>
+  ) : (
+    <LoadingUser />
   )
 }

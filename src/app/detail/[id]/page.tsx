@@ -17,9 +17,13 @@ const ProfileDetail = observer(({ params }: { params: any }) => {
   const id = params.id;
   const star = [...Array(5)];
 
+
   const [details, setDetails] = useState<UserDto>();
   const [userReview, setUserReview] = useState({});
   const [submit, setSubmit] = useState<boolean>(false);
+    const [userRequest, setUserRequest] = useState({});
+
+
 
   const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
@@ -57,77 +61,82 @@ const ProfileDetail = observer(({ params }: { params: any }) => {
     text: "",
   });
 
-  const submitReview = () => {
-    setDetails(undefined);
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/review/${details._id}`,
-        review,
-        {
-          headers: headers,
-        }
-      )
-      .then((data) => {
-        setSubmit(!submit);
-        console.log(data);
-      });
-  };
-  const deleteReview = () => {
-    setDetails(undefined);
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/review/remove/${details._id}`,
-        {},
-        {
-          headers: headers,
-        }
-      )
-      .then((data) => {
-        setSubmit(!submit);
-        console.log(data);
-      });
-  };
 
-  return details ? (
-    <main className="mt-[4.3rem] w-[20rem] mx-auto">
-      {open ? (
-        <div className="bg-gray-900 opacity-60 z-[1000] fixed top-0 left-0 w-full h-full duration-1000"></div>
-      ) : (
-        <div className="bg-gray-900 opacity-0 -z-50 fixed top-0 left-0 w-full h-full duration-1000"></div>
-      )}
-      <RentConfirm
-        closePopup={() => setOpen(0)}
-        {...{ ...details, state: open }}
-      />
-      {/* <ProfileBlock image={images} /> */}
-      <div className="ml-auto mr-auto mt-2  font-['Sarabun']">
-        <p className="font-bold inline"> {details.nickname} </p>
-        <div className="inline max-w-fit ml-1 mt-3 text-[0.68rem] text-center text-white bg-red-900 rounded-[9px] px-3 py-1 font-thin">{`${details?.faculty} ปี ${details?.degree}`}</div>
-        {details.sellingStatus ? (
-          <div className="my-2">
-            <p className="inline font-bold mr-1">Status:</p>
-            <p className="inline font-bold text-[#229318]">พร้อมบริการ</p>
-          </div>
-        ) : (
-          <div className="my-2">
-            <p className="inline font-bold mr-1">Status:</p>
-            <p className="inline font-bold text-red-600">ไม่พร้อมบริการ</p>
-          </div>
-        )}
-        <p className="font-light text-xs my-1">{details.description}</p>
-        <p className="font-light text-xs my-1">
-          {" "}
-          {`${details.price} bulbs / request`}
-        </p>
-        <p className="font-light text-xs my-1">{`Gender : ${details.gender}`}</p>
-        <p></p>
-      </div>
-      <button
-        onClick={() => setOpen(1)}
-        className="my-5 h-[2rem] w-full bg-[#E23A7A] rounded-[10px] text-white font-[600] font-['Montserrat']"
-      >
-        Rent me
-      </button>
+    const submitReview = () => {
+        setDetails(undefined)
+        axios
+            .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/review/${details._id}`, review, {
+                headers: headers,
+            })
+            .then(data => {
+                setSubmit(!submit)
+                console.log(data)
+            })
+    }
+    const deleteReview = () => {
+        setDetails(undefined)
+        axios
+            .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/review/remove/${details._id}`, {}, {
+                headers: headers,
+            })
+            .then(data => {
+                setSubmit(!submit)
+                console.log(data)
+            })
+    }
+    const sentRequest = () => {
+        setDetails(undefined)
+        axios
+            .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/send/${details._id}`, {}, {
+                headers: headers,
+            })
+            .then(data => {
+                setSubmit(!submit)
+                console.log(data)
+            })
+    }
+
+    return details ? (
+        <main className="mt-[4.3rem] w-[20rem] mx-auto">
+            {open ? (
+                <div className="bg-gray-900 opacity-60 z-[1000] fixed top-0 left-0 w-full h-full duration-1000"></div>
+            ) : (
+                <div className="bg-gray-900 opacity-0 -z-50 fixed top-0 left-0 w-full h-full duration-1000"></div>
+            )}
+            <RentConfirm
+                closePopup={() => setOpen(0)}
+                confirm={sentRequest}
+                {...{ ...details, state: open }}
+            />
+            {/* <ProfileBlock image={images} /> */}
+            <div className="ml-auto mr-auto mt-2  font-['Sarabun']">
+                <p className="font-bold inline"> {details.nickname} </p>
+                <div className="inline max-w-fit ml-1 mt-3 text-[0.68rem] text-center text-white bg-red-900 rounded-[9px] px-3 py-1 font-thin">{`${details?.faculty} ปี ${details?.degree}`}</div>
+                {details.sellingStatus ? (
+                    <div className="my-2">
+                        <p className="inline font-bold mr-1">Status:</p>
+                        <p className="inline font-bold text-[#229318]">พร้อมบริการ</p>
+                    </div>
+                ) : (
+                    <div className="my-2">
+                        <p className="inline font-bold mr-1">Status:</p>
+                        <p className="inline font-bold text-red-600">ไม่พร้อมบริการ</p>
+                    </div>
+                )}
+                <p className="font-light text-xs my-1">{details.description}</p>
+                <p className="font-light text-xs my-1">
+                    {" "}
+                    {`${details.price} bulbs / request`}
+                </p>
+                <p className="font-light text-xs my-1">{`Gender : ${details.gender}`}</p>
+                <p></p>
+            </div>
+            <button
+                onClick={() => setOpen(1)}
+                className="my-5 h-[2rem] w-full bg-[#E23A7A] rounded-[10px] text-white font-[600] font-['Montserrat']"
+            >
+                Rent me
+            </button>
 
       <div className="flex justify-center">
         <div className="bg-gray-200 w-[10rem] h-[1.5px] my-auto"></div>
