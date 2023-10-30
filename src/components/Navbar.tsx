@@ -101,8 +101,8 @@ const Navbar = observer((props: any) => {
                 </button>
               </div>
               <div className="rounded-full overflow-hidden w-24 h-24">
-                <Image
-                  src={props.profileImage}
+                <img
+                  src={userStore.profile?.previewPicture??''}
                   alt="profile picture"
                   width={100}
                   height={100}
@@ -114,12 +114,12 @@ const Navbar = observer((props: any) => {
                   <BsPersonFill />
                 </div>
                 <p className="text-gray-100 text-base font-medium">
-                  Wiroonpuri
+                  {userStore.profile?.nickname}
                 </p>
               </div>
               <div>
                 <p className="text-gray-100 text-base font-medium">
-                  Bulbs balance 100000
+                  Bulbs balance {userStore.profile?.balance}
                 </p>
               </div>
             </div>
@@ -165,9 +165,9 @@ const Navbar = observer((props: any) => {
                   <FaTimes />
                 </button>
               </div>
-              <div className="rounded-full overflow-hidden w-24 h-24">
-                <Image
-                  src={props.profileImage}
+              <div className="rounded-full object-cover overflow-hidden w-24 h-24">
+                <img
+                  src={userStore.profile?.previewPicture??''}
                   alt="profile picture"
                   width={100}
                   height={100}
@@ -179,12 +179,12 @@ const Navbar = observer((props: any) => {
                   <BsPersonFill />
                 </div>
                 <p className="text-gray-100 text-base font-medium">
-                  Wiroonpuri
+                  {userStore.profile?.nickname}
                 </p>
               </div>
               <div>
                 <p className="text-gray-100 text-base font-medium">
-                  Bulbs balance 100000
+                  Bulbs balance {userStore.profile?.balance}
                 </p>
               </div>
             </div>

@@ -46,7 +46,7 @@ const Page = observer(() => {
       name: "gender",
       section: "Gender",
       text: "Please select your gender",
-      lists: ["male", "female"],
+      lists: ["Male", "Female"],
       zIdex: "3",
     },
   ];
@@ -89,7 +89,28 @@ const Page = observer(() => {
   };
 
   const fileSelectedHandler = async (e: any) => {
-    setValues({ ...values, [e.target.name]: e.target.files[0].name });
+    const imageForm = new FormData();
+    imageForm.append('file', e.target.files[0]);
+    axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/file`,
+      data: imageForm,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + userStore.token
+      }
+    })
+    .then((data) => {
+      console.log(data);
+      axios({
+        method: "get",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/file/${data.data}`,
+        headers: headers
+      })
+      .then((newData) => {
+        setValues({ ...values, [e.target.name]: newData.data });
+      });
+    });
   };
 
   const supfileSelectedHandler = async (e: any) => {
@@ -101,7 +122,30 @@ const Page = observer(() => {
     } else if (e.target.name === "supplementPictures3") {
       index = 2;
     }
-    values.supplementPictures[index] = e.target.files[0].name;
+    const imageForm = new FormData();
+    imageForm.append('file', e.target.files[0]);
+    axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/file`,
+      data: imageForm,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + userStore.token
+      }
+    })
+    .then((data) => {
+      console.log(data);
+      axios({
+        method: "get",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/file/${data.data}`,
+        headers: headers
+      })
+      .then((newData) => {
+        let temp = {...values};
+        temp.supplementPictures[index] = newData.data;
+        setValues(temp);
+      });
+    });
   };
 
   const submitForm = () => {

@@ -10,7 +10,6 @@ export default function Root({ children }: { children: ReactNode }) {
   const [userInitialized, setUserInitialized] = useState(false);
   const [checkingRoute, setCheckingRoute] = useState(true);
 
-
   return (
     <UserContextProvider store={userStore} finishedInitialize={() => setUserInitialized(true)}>
       <RouteChecker
