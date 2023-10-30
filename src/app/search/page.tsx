@@ -59,7 +59,7 @@ const Search = observer(() => {
             if (v[prop] != filter_search[prop]) return false;
           }
           return true;
-        })
+        }).filter(x => x.studentId != userStore.profile?.studentId && x.sellingStatus == true)
       );
     });
   }, [param]);

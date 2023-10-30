@@ -100,12 +100,11 @@ const Navbar = observer((props: any) => {
                   <FaTimes />
                 </button>
               </div>
-              <div className="rounded-full overflow-hidden w-24 h-24">
+              <div className="flex justify-center items-center w-24 h-24">
                 <img
                   src={userStore.profile?.previewPicture??''}
                   alt="profile picture"
-                  width={100}
-                  height={100}
+                  className="rounded-full w-full h-full object-cover"
                 />
               </div>
 
@@ -165,12 +164,11 @@ const Navbar = observer((props: any) => {
                   <FaTimes />
                 </button>
               </div>
-              <div className="rounded-full object-cover overflow-hidden w-24 h-24">
+              <div className="flex justify-center items-center w-24 h-24">
                 <img
                   src={userStore.profile?.previewPicture??''}
                   alt="profile picture"
-                  width={100}
-                  height={100}
+                  className="rounded-full w-full h-full object-cover"
                 />
               </div>
 

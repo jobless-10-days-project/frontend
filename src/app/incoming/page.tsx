@@ -100,7 +100,7 @@ const Page = observer(() => {
           </div>
           <div className="flex justify-center items-center w-36 h-36">
             <img
-              src={Info.image}
+              src={userStore.profile?.previewPicture}
               className="rounded-full w-full h-full"
               alt=""
             />

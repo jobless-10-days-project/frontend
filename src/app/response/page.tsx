@@ -213,11 +213,11 @@ const Page = observer(() => {
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-2xl font-bold">Total bulbs</p>
-            <p className="text-[#2DA926] text-4xl font-bold">{Info.total}</p>
+            <p className="text-[#2DA926] text-4xl font-bold">{userStore.profile?.balance}</p>
           </div>
           <div className="flex justify-center items-center w-36 h-36">
             <img
-              src={Info.image}
+              src={userStore.profile?.previewPicture}
               className="rounded-full w-full h-full"
               alt=""
             />
