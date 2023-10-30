@@ -74,7 +74,7 @@ const RouteChecker = observer(
         const result = await getUserProfile(userStore.token);
         const profile = result.result;
         if (profile) {
-          const adding = when(() => userStore.profile === profile);
+          const adding = when(() => userStore.profile != null);
           userStore.setProfile(profile);
           await adding;
         }
