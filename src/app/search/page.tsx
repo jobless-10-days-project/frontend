@@ -31,14 +31,16 @@ const Search = observer(() => {
     "Content-Type": "application/json",
     Authorization: "Bearer " + userStore.token,
   });
-  reaction(
-    () => userStore.token,
-    (token) =>
-      setHeaders({
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      })
-  );
+  useEffect(() => {
+    reaction(
+      () => userStore.token,
+      (token) =>
+        setHeaders({
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        })
+    );
+  }, []);
 
   const param = useParams();
   useEffect(() => {

@@ -1,10 +1,12 @@
 "use client";
+import { FindMeDto } from "@/api/type";
 import { makeAutoObservable, reaction } from "mobx";
 import { observer } from "mobx-react";
 import { useEffect } from "react";
 
 export class UserStore {
   public token: string | null = null;
+  public profile: FindMeDto | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -16,6 +18,10 @@ export class UserStore {
 
   public setToken(val: string | null) {
     this.token = val;
+  }
+
+  public setProfile(val: FindMeDto | null) {
+    this.profile = val;
   }
 
   public logout() {
@@ -62,18 +68,18 @@ export const UserContextProvider = observer(
 
     // load from local storage on mount
     useEffect(() => {
+      reaction(
+        () => store.token,
+        (token, prevToken) => {
+          if (prevToken !== token && token !== null)
+            localStorage.setItem("cugetloveJWT", token);
+        }
+      );
+
       store.initialize();
       finishedInitialize();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    reaction(
-      () => store.token,
-      (token, prevToken) => {
-        if (prevToken !== token && token !== null)
-          localStorage.setItem("cugetloveJWT", token);
-      }
-    );
 
     // useEffect(() => {
     // if (oldToken !== token && token !== null)
@@ -86,5 +92,3 @@ export const UserContextProvider = observer(
     return <>{children}</>;
   }
 );
-
-observer;

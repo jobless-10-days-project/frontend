@@ -9,20 +9,13 @@ import axios from "axios";
 import { userStore } from "@/model/User";
 import { reaction } from "mobx";
 import { observer } from "mobx-react";
+import { getUserProfile } from "@/api";
 
 const Page = observer(() => {
   const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
     Authorization: "Bearer " + userStore.token,
   });
-  reaction(
-    () => userStore.token,
-    (token) =>
-      setHeaders({
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      })
-  );
 
   const dropdown = [
     {
@@ -72,6 +65,15 @@ const Page = observer(() => {
   });
 
   useEffect(() => {
+    reaction(
+      () => userStore.token,
+      (token) =>
+        setHeaders({
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        })
+    );
+    
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
         headers: headers,

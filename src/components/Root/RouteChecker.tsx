@@ -1,6 +1,7 @@
-import { userEditedProfile } from "@/api";
+import { getUserProfile, userEditedProfile } from "@/api";
 import { userStore } from "@/model/User";
 import { beforeRouteChange } from "@/routing/routing";
+import { reaction, when } from "mobx";
 import { observer } from "mobx-react";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useContext, useEffect } from "react";
@@ -37,7 +38,11 @@ const RouteChecker = observer(
     /**
      * use router.push here to avoid checking in this function again when pushed.
      */
-    const checkAuthRoute = async (target: string, push: boolean) => {
+    const checkAuthRoute = async (
+      target: string,
+      push: boolean,
+      initial: boolean
+    ) => {
       if (skipCheckRoutes.some((r) => target.startsWith(r))) return true;
 
       if (!userStore.token) {
@@ -64,15 +69,29 @@ const RouteChecker = observer(
           return "/editProfile";
         }
       }
+
+      if (initial) {
+        const result = await getUserProfile(userStore.token);
+        const profile = result.result;
+        if (profile) {
+          const adding = when(() => userStore.profile === profile);
+          userStore.setProfile(profile);
+          await adding;
+        }
+      }
       return true;
     };
 
     // check first time when user has just initialized
     useEffect(() => {
-      console.log("initialized", userInitialized);
       if (userInitialized) {
+        reaction(
+          () => userStore.profile,
+          (profile) => console.log("profile now", JSON.stringify(profile))
+        );
+
         setChecking(true);
-        checkAuthRoute(pathname, true);
+        checkAuthRoute(pathname, true, true);
         setChecking(false);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,7 +103,7 @@ const RouteChecker = observer(
         // changing route would need user initialization to finish loading before interacting
         // anyway
         setChecking(true);
-        const result = await checkAuthRoute(target, false);
+        const result = await checkAuthRoute(target, false, false);
         setChecking(false);
         return result;
       });

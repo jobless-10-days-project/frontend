@@ -1,14 +1,14 @@
 "use client";
 
 import BuyerInfo from "@/components/Incoming/BuyerInfo";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import LoadingUser from "@/components/LoadingUser";
 import { reaction } from "mobx";
 import { userStore } from "@/model/User";
+import { observer } from "mobx-react";
 
-export default function page() {
+const Page = observer(() => {
   const Info = {
     image: "../meen.png",
     price: "10000",
@@ -38,49 +38,56 @@ export default function page() {
     "Content-Type": "application/json",
     Authorization: "Bearer " + userStore.token,
   });
-  reaction(
-    () => userStore.token,
-    (token) =>
-      setHeaders({
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      })
-  );
-
 
   // 6532043021
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
   useEffect(() => {
+    reaction(
+      () => userStore.token,
+      (token) =>
+        setHeaders({
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        })
+    );
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
         headers: headers,
       })
       .then((data) => {
-        console.log(data.data[0])
+        console.log(data.data[0]);
         setUser(data.data[0].incomingRequests);
       });
   }, []);
 
   const acceptRequest = (id: string) => {
-    console.log(id)
+    console.log(id);
     axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/accept/${id}`, {}, {
-        headers: headers,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/accept/${id}`,
+        {},
+        {
+          headers: headers,
+        }
+      )
       .then((data) => {
-        console.log(data.data[0])
+        console.log(data.data[0]);
       });
-  }
+  };
   const rejectRequest = (id: string) => {
-    console.log(id)
+    console.log(id);
     axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/reject/${id}`, {}, {
-        headers: headers,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/reject/${id}`,
+        {},
+        {
+          headers: headers,
+        }
+      )
       .then((data) => {
-        console.log(data.data[0])
+        console.log(data.data[0]);
       });
-  }
+  };
 
   return user ? (
     <div className="w-full h-full">
@@ -119,11 +126,18 @@ export default function page() {
               <div key={index}>
                 <BuyerInfo key={index} {...props} />
                 <div className="ml-2 flex justify-between w-5/12">
-                  <button onClick={() => { decline(index), acceptRequest(props.userId) }} className="bg-[#5AD94E] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg">
+                  <button
+                    onClick={() => {
+                      decline(index), acceptRequest(props.userId);
+                    }}
+                    className="bg-[#5AD94E] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg"
+                  >
                     Accept
                   </button>
                   <button
-                    onClick={() => { decline(index), rejectRequest(props.userId) }}
+                    onClick={() => {
+                      decline(index), rejectRequest(props.userId);
+                    }}
                     className="bg-[#FF4545] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg"
                   >
                     Decline
@@ -138,5 +152,7 @@ export default function page() {
     </div>
   ) : (
     <LoadingUser />
-  )
-}
+  );
+});
+
+export default Page;

@@ -7,9 +7,10 @@ import SellerRes from "@/components/Response/SellerRes";
 import { userStore } from "@/model/User";
 import axios from "axios";
 import { reaction } from "mobx";
-import { useContext, useEffect, useState } from "react";
+import { observer } from "mobx-react";
+import { useEffect, useState } from "react";
 
-export default function page() {
+const Page = observer(() => {
   const Info = {
     image: "../meen.png",
     total: "10000",
@@ -102,12 +103,16 @@ export default function page() {
   };
   const cancelAccepted = (props: any, index: Number) => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/remove/${seller[index]._id}`, {}, {
-        headers: headers,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/remove/${seller[index]._id}`,
+        {},
+        {
+          headers: headers,
+        }
+      )
       .then((data) => {
-        console.log('remove accepted completed')
-        console.log(data.data[0])
+        console.log("remove accepted completed");
+        console.log(data.data[0]);
       });
     const newseller = seller.filter((_, i) => i !== index);
     setSeller(newseller);
@@ -120,12 +125,16 @@ export default function page() {
 
   const Delete = (props: any, index: Number) => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/remove/${seller[index]._id}`, {}, {
-        headers: headers,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/remove/${seller[index]._id}`,
+        {},
+        {
+          headers: headers,
+        }
+      )
       .then((data) => {
-        console.log('remove rejected completed')
-        console.log(data.data[0])
+        console.log("remove rejected completed");
+        console.log(data.data[0]);
       });
     const newseller = seller.filter((_, i) => i !== index);
     setSeller(newseller);
@@ -142,14 +151,18 @@ export default function page() {
       setConfirmList([...confirmList, props]);
     }
     Accepted(props);
-    console.log('sending....')
+    console.log("sending....");
     axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/buy/${props.userId}`, {}, {
-        headers: headers,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/buy/${props.userId}`,
+        {},
+        {
+          headers: headers,
+        }
+      )
       .then((data) => {
-        console.log('send complete')
-        console.log(data.data[0])
+        console.log("send complete");
+        console.log(data.data[0]);
       });
   };
 
@@ -157,24 +170,29 @@ export default function page() {
     "Content-Type": "application/json",
     Authorization: "Bearer " + userStore.token,
   });
-  reaction(
-    () => userStore.token,
-    (token) =>
-      setHeaders({
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      })
-  );
   // 6532043021
   useEffect(() => {
+    reaction(
+      () => userStore.token,
+      (token) =>
+        setHeaders({
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        })
+    );
+
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
         headers: headers,
       })
       .then((data) => {
-        console.log(data.data[0].sentRequests)
-        setSeller(data.data[0].sentRequests.filter(x => x.status != 'Confirmed'));
-        setConfirmList(data.data[0].sentRequests.filter(x => x.status == 'Confirmed'))
+        console.log(data.data[0].sentRequests);
+        setSeller(
+          data.data[0].sentRequests.filter((x) => x.status != "Confirmed")
+        );
+        setConfirmList(
+          data.data[0].sentRequests.filter((x) => x.status == "Confirmed")
+        );
       });
   }, []);
 
@@ -282,4 +300,6 @@ export default function page() {
   ) : (
     <LoadingUser />
   );
-}
+});
+
+export default Page;

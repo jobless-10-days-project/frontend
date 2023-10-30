@@ -21,16 +21,17 @@ const Page = observer(() => {
     "Content-Type": "application/json",
     Authorization: "Bearer " + userStore.token,
   });
-  reaction(
-    () => userStore.token,
-    (token) =>
-      setHeaders({
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      })
-  );
+
   // 6532043021
   useEffect(() => {
+    reaction(
+      () => userStore.token,
+      (token) =>
+        setHeaders({
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        })
+    );
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
         headers: headers,
