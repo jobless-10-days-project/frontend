@@ -101,6 +101,14 @@ export default function page() {
     setSeller(update);
   };
   const cancelAccepted = (props: any, index: Number) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/remove/${seller[index]._id}`, {}, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log('remove accepted completed')
+        console.log(data.data[0])
+      });
     const newseller = seller.filter((_, i) => i !== index);
     setSeller(newseller);
   };
@@ -111,6 +119,14 @@ export default function page() {
   };
 
   const Delete = (props: any, index: Number) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/remove/${seller[index]._id}`, {}, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log('remove rejected completed')
+        console.log(data.data[0])
+      });
     const newseller = seller.filter((_, i) => i !== index);
     setSeller(newseller);
   };
@@ -126,11 +142,13 @@ export default function page() {
       setConfirmList([...confirmList, props]);
     }
     Accepted(props);
+    console.log('sending....')
     axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/buy/${props.userId}`, {}, {
         headers: headers,
       })
       .then((data) => {
+        console.log('send complete')
         console.log(data.data[0])
       });
   };
