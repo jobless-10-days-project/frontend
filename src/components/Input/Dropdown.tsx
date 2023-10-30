@@ -14,7 +14,7 @@ export default function Dropdown(props: any) {
   };
   return (
     <div
-      className="relative flex flex-col w-full mb-3 font-['Sarabun'] "
+      className="relative flex flex-col w-full mb-3 "
       style={{ zIndex: Number(props.zIndex) }}
     >
       <p className="text-base font-bold">{props.section}</p>
