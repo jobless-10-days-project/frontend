@@ -2,19 +2,21 @@
 
 import { signin } from "@/api";
 import InputBox from "@/components/Input/InputBox";
-import { UserContext } from "@/contexts/User";
+import { userStore } from "@/model/User";
 import { CapturedLink } from "@/routing/CapturedLink";
 import useCapturedRouting from "@/routing/useCapturedRouting";
-import { useRouter } from "next/navigation";
+import { when } from "mobx";
+import { observer } from "mobx-react";
 import { FormEventHandler, useContext, useState } from "react";
+import { toast } from "react-toastify";
 
-export default function Page() {
-  const { push } = useCapturedRouting("");
+const Page = observer(() => {
+  const { push } = useCapturedRouting();
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
-  const { setToken } = useContext(UserContext);
+  // const { token: curToken, setToken } = useContext(UserContext);
 
   const inputbox = [
     {
@@ -42,10 +44,12 @@ export default function Page() {
       values.password
     );
     if (token) {
-      setToken(token);
-      push("/");
+      // console.log("before curToken", curToken, "setting to", token);
+
+      when(() => userStore.token === token).then(() => push("/"))
+      userStore.setToken(token);
     } else {
-      alert("An error occurred: " + error);
+      toast("An error occurred: " + error);
     }
   };
 
@@ -88,4 +92,6 @@ export default function Page() {
       </div>
     </div>
   );
-}
+});
+
+export default Page;

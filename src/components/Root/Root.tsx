@@ -1,5 +1,5 @@
 "use client";
-import { UserContextProvider } from "@/contexts/User";
+import { UserContextProvider, userStore } from "@/model/User";
 import { ReactNode, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,8 +10,9 @@ export default function Root({ children }: { children: ReactNode }) {
   const [userInitialized, setUserInitialized] = useState(false);
   const [checkingRoute, setCheckingRoute] = useState(true);
 
+
   return (
-    <UserContextProvider finishedInitialize={() => setUserInitialized(true)}>
+    <UserContextProvider store={userStore} finishedInitialize={() => setUserInitialized(true)}>
       <RouteChecker
         userInitialized={userInitialized}
         setChecking={(b) => setCheckingRoute(b)}

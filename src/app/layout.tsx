@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { UserContextProvider } from "@/contexts/User";
+import { UserContextProvider } from "@/model/User";
 import { useState } from "react";
 import Root from "@/components/Root/Root";
 
