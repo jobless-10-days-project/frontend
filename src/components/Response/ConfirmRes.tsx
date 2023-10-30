@@ -4,7 +4,7 @@ export default function ConfirmRes(props: any) {
       <div className="mb-6 grid grid-cols-4">
         <div className="m-auto flex justify-center items-center w-16 h-16">
           <img
-            src={props.image}
+            src={props.picture}
             className="rounded-full w-full h-full object-cover"
             alt=""
           />

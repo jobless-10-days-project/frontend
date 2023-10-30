@@ -1,10 +1,10 @@
 "use client";
 import StudentCard from "@/components/Homepage/StudentCard";
 import FacultyButton from "@/components/Homepage/FacultyButton";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import LoadingUser from "@/components/LoadingUser";
-import { reaction } from "mobx";
+import { reaction, when } from "mobx";
 import { userStore } from "@/model/User";
 import { observer } from "mobx-react";
 
@@ -45,8 +45,8 @@ const Home = observer(() => {
       url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/filter`,
       headers: headers,
     }).then((data) => {
-      console.log(data.data);
-      setStudentCards(data.data);
+      console.log(userStore.profile?.sellingStatus)
+      setStudentCards(data.data.filter(x => x.studentId != userStore.profile?.studentId && x.sellingStatus == true));
     });
   }, []);
 
