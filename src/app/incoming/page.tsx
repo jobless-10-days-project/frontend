@@ -3,9 +3,10 @@
 import BuyerInfo from "@/components/Incoming/BuyerInfo";
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { UserContext } from "@/contexts/User";
 import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import LoadingUser from "@/components/LoadingUser";
+import { reaction } from "mobx";
+import { userStore } from "@/model/User";
 
 export default function page() {
   const Info = {
@@ -33,12 +34,20 @@ export default function page() {
     setUser(newuser);
   };
 
-  const { token } = useContext(UserContext)
-
-  const headers = {
+  const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
-  };
+    Authorization: "Bearer " + userStore.token,
+  });
+  reaction(
+    () => userStore.token,
+    (token) =>
+      setHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      })
+  );
+
+
   // 6532043021
   const [user, setUser] = useState()
   useEffect(() => {

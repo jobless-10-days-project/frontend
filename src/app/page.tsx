@@ -5,6 +5,8 @@ import { UserContext } from "@/contexts/User"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios";
 import LoadingUser from "@/components/LoadingUser";
+import { reaction } from "mobx";
+import { userStore } from "@/model/User";
 
 export default function Home() {
   const facultyButtons = [
@@ -22,12 +24,20 @@ export default function Home() {
   //   { faculty: 'Law', gender: 'Helicopter', degree: 3, description: 'เอเลี่ยนประหลาด', imageUrl: '/meen3.jpeg', color: "#000000", id: 2 },
   //   { faculty: 'Political', gender: 'ชาย', degree: 1, description: 'คุณชายสุดหล่อรวยหนุ่มวิศวะสุดฮอตที่มาพร้อมกับความเย็นชาที่จะทำให้คุณหลงรัก', imageUrl: '/meen2.jpeg', color: "#327F03", id: 3 },
   // ]
-  const { token } = useContext(UserContext)
-
-  const headers = {
+  const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
-  };
+    Authorization: "Bearer " + userStore.token,
+  });
+  reaction(
+    () => userStore.token,
+    (token) =>
+      setHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      })
+  );
+
+
   // 6532043021
   const [studentCards, setStudentCards] = useState();
   useEffect(() => {

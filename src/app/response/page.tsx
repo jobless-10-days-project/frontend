@@ -4,8 +4,9 @@ import LoadingUser from "@/components/LoadingUser";
 import CheckConfirm from "@/components/Response/CheckConfirm";
 import ConfirmRes from "@/components/Response/ConfirmRes";
 import SellerRes from "@/components/Response/SellerRes";
-import { UserContext } from "@/contexts/User";
+import { userStore } from "@/model/User";
 import axios from "axios";
+import { reaction } from "mobx";
 import { useContext, useEffect, useState } from "react";
 
 export default function page() {
@@ -125,14 +126,27 @@ export default function page() {
       setConfirmList([...confirmList, props]);
     }
     Accepted(props);
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/buy/${props.userId}`, {}, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log(data.data[0])
+      });
   };
 
-  const { token } = useContext(UserContext)
-
-  const headers = {
+  const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
-  };
+    Authorization: "Bearer " + userStore.token,
+  });
+  reaction(
+    () => userStore.token,
+    (token) =>
+      setHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      })
+  );
   // 6532043021
   useEffect(() => {
     axios
