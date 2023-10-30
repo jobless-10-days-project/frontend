@@ -17,6 +17,7 @@ export default function ProfileDetail({ params }: { params: any }) {
 
     const [details, setDetails] = useState<UserDto>();
     const [userReview, setUserReview] = useState({});
+    const [userRequest, setUserRequest] = useState({});
     const [submit, setSubmit] = useState<boolean>(false);
 
     const headers = {
@@ -67,6 +68,17 @@ export default function ProfileDetail({ params }: { params: any }) {
                 console.log(data)
             })
     }
+    const sentRequest = () => {
+        setDetails(undefined)
+        axios
+            .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/send/${details._id}`, {}, {
+                headers: headers,
+            })
+            .then(data => {
+                setSubmit(!submit)
+                console.log(data)
+            })
+    }
 
     return details ? (
         <main className="mt-[4.3rem] w-[20rem] mx-auto">
@@ -77,6 +89,7 @@ export default function ProfileDetail({ params }: { params: any }) {
             )}
             <RentConfirm
                 closePopup={() => setOpen(0)}
+                confirm={sentRequest}
                 {...{ ...details, state: open }}
             />
             {/* <ProfileBlock image={images} /> */}

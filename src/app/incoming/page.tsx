@@ -1,7 +1,11 @@
 "use client";
 
 import BuyerInfo from "@/components/Incoming/BuyerInfo";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import { UserContext } from "@/contexts/User";
+import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
+import LoadingUser from "@/components/LoadingUser";
 
 export default function page() {
   const Info = {
@@ -9,27 +13,67 @@ export default function page() {
     price: "10000",
   };
 
-  const [user, setUser] = useState([
-    {
-      name: "Mode",
-      image: "../meen2.jpeg",
-      age: "20",
-      gender: "ชาย",
-    },
-    {
-      name: "Mean",
-      image: "../meen3.jpeg",
-      age: "21",
-      gender: "ชาย",
-    },
-  ]);
+  // const [user, setUser] = useState([
+  //   {
+  //     name: "Mode",
+  //     image: "../meen2.jpeg",
+  //     age: "20",
+  //     gender: "ชาย",
+  //   },
+  //   {
+  //     name: "Mean",
+  //     image: "../meen3.jpeg",
+  //     age: "21",
+  //     gender: "ชาย",
+  //   },
+  // ]);
 
   const decline = (index: Number) => {
     const newuser = user.filter((_, i) => i !== index);
     setUser(newuser);
   };
 
-  return (
+  const { token } = useContext(UserContext)
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+  // 6532043021
+  const [user, setUser] = useState()
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log(data.data[0])
+        setUser(data.data[0].incomingRequests);
+      });
+  }, []);
+
+  const acceptRequest = (id: string) => {
+    console.log(id)
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/accept/${id}`, {}, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log(data.data[0])
+      });
+  }
+  const rejectRequest = (id: string) => {
+    console.log(id)
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/request/reject/${id}`, {}, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log(data.data[0])
+      });
+  }
+
+  return user ? (
     <div className="w-full h-full">
       <div className="w-full h-full p-8">
         <div className="flex items-center justify-between mb-4">
@@ -66,11 +110,11 @@ export default function page() {
               <div key={index}>
                 <BuyerInfo key={index} {...props} />
                 <div className="ml-2 flex justify-between w-5/12">
-                  <button className="bg-[#5AD94E] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg">
+                  <button onClick={() => { decline(index), acceptRequest(props.userId) }} className="bg-[#5AD94E] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg">
                     Accept
                   </button>
                   <button
-                    onClick={() => decline(index)}
+                    onClick={() => { decline(index), rejectRequest(props.userId) }}
                     className="bg-[#FF4545] text-white border-none py-1 px-2 font-semibold text-sm rounded-lg"
                   >
                     Decline
@@ -83,5 +127,7 @@ export default function page() {
         </div>
       </div>
     </div>
-  );
+  ) : (
+    <LoadingUser />
+  )
 }

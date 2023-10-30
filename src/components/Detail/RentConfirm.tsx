@@ -18,7 +18,7 @@ function Child(props: any) {
             <div className="w-full h-[0.1px] bg-gray-200"></div>
 
             <div className="w-full flex justify-between mt-auto items-end font-['Montserrat'] font-[600] absolute bottom-4 left-9">
-                <button className="text-white bg-[#5AD94E] my-auto py-2 px-5 rounded-xl mr-10">
+                <button onClick={() => { props.confirm(), props.closePopup() }} className="text-white bg-[#5AD94E] my-auto py-2 px-5 rounded-xl mr-10">
                     Confirm
                 </button>
                 <button

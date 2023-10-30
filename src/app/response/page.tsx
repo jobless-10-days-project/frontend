@@ -1,9 +1,12 @@
 "use client";
 
+import LoadingUser from "@/components/LoadingUser";
 import CheckConfirm from "@/components/Response/CheckConfirm";
 import ConfirmRes from "@/components/Response/ConfirmRes";
 import SellerRes from "@/components/Response/SellerRes";
-import { useState } from "react";
+import { UserContext } from "@/contexts/User";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 
 export default function page() {
   const Info = {
@@ -11,38 +14,40 @@ export default function page() {
     total: "10000",
   };
 
-  const [seller, setSeller] = useState([
-    {
-      nickname: "Mode",
+  const [seller, setSeller] = useState();
+  // const [seller, setSeller] = useState([
+  //   {
+  //     nickname: "Mode",
 
-      image: "../meen2.jpeg",
-      price: "10000",
-      status: "Accepted",
-      lineId: "modemode",
-    },
-    {
-      nickname: "Moden",
-      image: "../meen3.jpeg",
-      price: "30000",
-      status: "Accepted",
-      lineId: "modenmoden",
-    },
-    {
-      nickname: "Mean",
-      image: "../meen3.jpeg",
-      price: "20000",
-      status: "Pending",
-      lineId: "meanmean",
-    },
-    {
-      nickname: "SD",
-      image: "../meen3.jpeg",
-      price: "30000",
-      status: "Rejected",
-      lineId: "sdsd",
-    },
-  ]);
+  //     image: "../meen2.jpeg",
+  //     price: "10000",
+  //     status: "Accepted",
+  //     lineId: "modemode",
+  //   },
+  //   {
+  //     nickname: "Moden",
+  //     image: "../meen3.jpeg",
+  //     price: "30000",
+  //     status: "Accepted",
+  //     lineId: "modenmoden",
+  //   },
+  //   {
+  //     nickname: "Mean",
+  //     image: "../meen3.jpeg",
+  //     price: "20000",
+  //     status: "Pending",
+  //     lineId: "meanmean",
+  //   },
+  //   {
+  //     nickname: "SD",
+  //     image: "../meen3.jpeg",
+  //     price: "30000",
+  //     status: "Rejected",
+  //     lineId: "sdsd",
+  //   },
+  // ]);
 
+  // const [seller, setSeller] = useState();
   const [open, setOpen] = useState<Number>(0);
   const [confirm, setConfirm] = useState({});
   const [confirmList, setConfirmList] = useState<any[]>([]);
@@ -121,8 +126,28 @@ export default function page() {
     }
     Accepted(props);
   };
+
+  const { token } = useContext(UserContext)
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+  // 6532043021
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log(data.data[0].sentRequests)
+        setSeller(data.data[0].sentRequests.filter(x => x.status != 'Confirmed'));
+        setConfirmList(data.data[0].sentRequests.filter(x => x.status == 'Confirmed'))
+      });
+  }, []);
+
   console.log(confirmList);
-  return (
+  return seller ? (
     <div className="w-full h-full">
       {open ? (
         <div className="bg-gray-900 opacity-60 z-[1000] fixed top-0 left-0 w-full h-full duration-1000"></div>
@@ -222,5 +247,7 @@ export default function page() {
         </div>
       </div>
     </div>
+  ) : (
+    <LoadingUser />
   );
 }
