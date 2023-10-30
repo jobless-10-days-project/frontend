@@ -1,6 +1,6 @@
 "use client";
 import { FindMeDto } from "@/api/type";
-import { makeAutoObservable, reaction } from "mobx";
+import { makeAutoObservable, reaction, when } from "mobx";
 import { observer } from "mobx-react";
 import { useEffect } from "react";
 
@@ -24,9 +24,12 @@ export class UserStore {
     this.profile = val;
   }
 
-  public logout() {
+  public async logout() {
+    const promise = when(() => this.profile == null && this.token == null);
     this.setToken(null);
+    this.setProfile(null);
     localStorage.removeItem("cugetloveJWT");
+    await promise;
   }
 }
 

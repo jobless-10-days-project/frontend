@@ -37,8 +37,8 @@ const Navbar = observer((props: any) => {
 
   const colorlink = ["bg-[#F1367D]", "bg-[#BE2E65]"];
 
-  const logout = () => {
-    userStore.logout();
+  const logout = async () => {
+    await userStore.logout();
     toast("Logged out successfully.");
     push("/first");
   };

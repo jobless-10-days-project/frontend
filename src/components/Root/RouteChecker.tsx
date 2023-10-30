@@ -85,10 +85,10 @@ const RouteChecker = observer(
     // check first time when user has just initialized
     useEffect(() => {
       if (userInitialized) {
-        reaction(
-          () => userStore.profile,
-          (profile) => console.log("profile now", JSON.stringify(profile))
-        );
+        // reaction(
+        //   () => userStore.profile, ,
+        //   (profile) => console.log("profile now", JSON.stringify(profile))
+        // );
 
         setChecking(true);
         checkAuthRoute(pathname, true, true).then(() => setChecking(false));
