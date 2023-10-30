@@ -2,14 +2,15 @@
 
 import { signup } from "@/api";
 import InputBox from "@/components/Input/InputBox";
-import { UserContext } from "@/contexts/User";
+import { userStore } from "@/model/User";
 import { CapturedLink } from "@/routing/CapturedLink";
 import useCapturedRouting from "@/routing/useCapturedRouting";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
-export default function Page() {
-  const { setToken } = useContext(UserContext);
+import { when } from "mobx";
+import { observer } from "mobx-react";
+import { useState } from "react";
+import { toast } from "react-toastify";
+const Page = observer(() => {
+  // const { setToken } = useContext(UserContext);
   const { push } = useCapturedRouting();
   const [values, setValues] = useState({
     email: "",
@@ -57,10 +58,10 @@ export default function Page() {
       values.password
     );
     if (token) {
-      setToken(token);
-      push("/editProfile");
+      when(() => userStore.token === token).then(() => push("/editProfile"));
+      userStore.setToken(token);
     } else {
-      alert("An error occurred: " + error);
+      toast("An error occurred: " + error);
     }
   };
 
@@ -97,4 +98,5 @@ export default function Page() {
       </div>
     </div>
   );
-}
+});
+export default Page;

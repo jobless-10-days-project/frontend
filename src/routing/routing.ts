@@ -16,7 +16,7 @@ export const beforeRouteChange = (fn: (target: string) => void | boolean | strin
  */
 export const fireBeforeRouteChange = async (target: string) => {
     const pathname = new URL(target || '', `https://www.example.com/${target}`).pathname;
-    const result = await Promise.resolve(beforeStartCallback(target));
+    const result = await Promise.resolve(beforeStartCallback(pathname));
     return result === undefined ? true : result;
     // const promises = beforeStartCallbacks.map(fn => Promise.resolve(fn(pathname)));
     // const result = await Promise.all(promises);

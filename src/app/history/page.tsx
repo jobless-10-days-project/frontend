@@ -1,13 +1,14 @@
 "use client";
 
-import { UserDto } from "@/api/type";
 import SellerInfo from "@/components/History/SellerInfo";
 import LoadingUser from "@/components/LoadingUser";
-import { UserContext } from "@/contexts/User";
+import { userStore } from "@/model/User";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { reaction } from "mobx";
+import { observer } from "mobx-react";
+import { useEffect, useState } from "react";
 
-export default function page() {
+const Page = observer(() => {
   const [history, setHistory] = useState(undefined);
 
   const removeElement = (index: Number) => {
@@ -15,12 +16,19 @@ export default function page() {
     setHistory(newhistory);
   };
 
-  const { token } = useContext(UserContext)
-
-  const headers = {
+  // const { token } = useContext(UserContext)
+  const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
-  };
+    Authorization: "Bearer " + userStore.token,
+  });
+  reaction(
+    () => userStore.token,
+    (token) =>
+      setHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      })
+  );
   // 6532043021
   useEffect(() => {
     axios
@@ -28,7 +36,7 @@ export default function page() {
         headers: headers,
       })
       .then((data) => {
-        console.log(data.data[0])
+        console.log(data.data[0]);
         setHistory(data.data[0].purchaseHistories);
       });
   }, []);
@@ -77,5 +85,8 @@ export default function page() {
         </div>
       </div>
     </div>
-  ) : (<LoadingUser />)
-}
+  ) : (
+    <LoadingUser />
+  );
+});
+export default Page;
