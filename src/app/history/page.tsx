@@ -71,14 +71,14 @@ const Page = observer(() => {
             {history.map((props, index) => (
               <div key={index}>
                 <SellerInfo {...props} />
-                <div className="ml-2">
+                {/* <div className="ml-2">
                   <button
                     onClick={() => removeElement(index)}
                     className="bg-white border-[1.5px] border-[#ABA3A3] py-1 px-2 text-[#ABA3A3] font-semibold text-sm rounded-lg"
                   >
                     Delete
                   </button>
-                </div>
+                </div> */}
                 <hr className="w-full h-[2px] bg-[#D9D9D9] my-4" />
               </div>
             ))}

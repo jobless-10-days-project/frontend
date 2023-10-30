@@ -5,10 +5,11 @@ import CheckConfirm from "@/components/Response/CheckConfirm";
 import ConfirmRes from "@/components/Response/ConfirmRes";
 import SellerRes from "@/components/Response/SellerRes";
 import { userStore } from "@/model/User";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { reaction } from "mobx";
 import { observer } from "mobx-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Page = observer(() => {
   const Info = {
@@ -139,18 +140,10 @@ const Page = observer(() => {
     const newseller = seller.filter((_, i) => i !== index);
     setSeller(newseller);
   };
+  const [loading, setLoading] = useState(false)
 
   const addConfirm = (props: any) => {
-    const isFound = confirmList.some((element) => {
-      if (element === props) {
-        return true;
-      }
-      return false;
-    });
-    if (!isFound) {
-      setConfirmList([...confirmList, props]);
-    }
-    Accepted(props);
+    setLoading(true)
     console.log("sending....");
     axios
       .post(
@@ -163,6 +156,21 @@ const Page = observer(() => {
       .then((data) => {
         console.log("send complete");
         console.log(data.data[0]);
+        setLoading(false)
+        const isFound = confirmList.some((element) => {
+          if (element === props) {
+            return true;
+          }
+          return false;
+        });
+        if (!isFound) {
+          setConfirmList([...confirmList, props]);
+        }
+        Accepted(props);
+      }).catch(e => {
+        const error = e as AxiosError
+        toast('An error occured ' + error.response?.data.message)
+        setLoading(false)
       });
   };
 
@@ -198,7 +206,10 @@ const Page = observer(() => {
 
   console.log(confirmList);
   return seller ? (
-    <div className="w-full h-full">
+    <div className={`w-full h-screen ${loading
+      ? "opacity-50 pointer-events-none"
+      : "opacity-100 pointer-events-auto"
+      }`}>
       {open ? (
         <div className="bg-gray-900 opacity-60 z-[1000] fixed top-0 left-0 w-full h-full duration-1000"></div>
       ) : (
