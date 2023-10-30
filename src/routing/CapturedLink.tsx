@@ -20,7 +20,6 @@ export const CapturedLink: React.FC<
 
   const navigate = async () => {
     const next = await fireBeforeRouteChange(href);
-    console.log('next', next)
     if (next === true) router.push(href); // must be boolean true
     else if (typeof next === "string") router.push(next);
   };

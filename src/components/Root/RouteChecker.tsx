@@ -44,14 +44,13 @@ const RouteChecker = observer(
         if (mustAuthRoutes.some((r) => r(target))) {
           toast("Please login first.");
           if (push) router.push("/first");
-          else return "/first";
+          return "/first";
         }
         return true;
       }
 
       const result = await userEditedProfile(userStore.token);
       const edited = result.result;
-      console.log("api result", result);
       if (edited === undefined) {
         toast("Your token has expired, please login again.");
         if (push) router.push("/first");
@@ -62,7 +61,7 @@ const RouteChecker = observer(
         if (!target.startsWith("/editProfile")) {
           toast("Please edit your profile first");
           if (push) router.push("/editProfile");
-          else return "/editProfile";
+          return "/editProfile";
         }
       }
       return true;
