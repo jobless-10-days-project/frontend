@@ -5,7 +5,7 @@ function Child(props: any) {
       <div className="flex justify-between mt-5">
         <p className="mt-5 font-bold text-2xl font-['Sarabun']">{props.nickname}</p>
         <div className="w-24 h-24 overflow-hidden rounded-full">
-          <img className="object-hidden" src={props.image} alt="nasImage" />
+          <img className="object-hidden" src={props.picture} alt="nasImage" />
         </div>
       </div>
       <div className="mt-3 py-2">
