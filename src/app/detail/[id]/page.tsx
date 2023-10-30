@@ -55,6 +55,10 @@ const ProfileDetail = observer(({ params }: { params: any }) => {
             });
     }, [submit]);
 
+    useEffect(() => {
+        if (userReview) setReview(userReview)
+    }, [userReview])
+
     const [open, setOpen] = useState<Number>(0);
     const [review, setReview] = useState({
         score: 0,
@@ -90,6 +94,7 @@ const ProfileDetail = observer(({ params }: { params: any }) => {
                 setSubmit(!submit);
                 console.log(data);
             });
+        setReview({})
     };
     const sentRequest = () => {
         setDetails(undefined);
@@ -192,10 +197,13 @@ const ProfileDetail = observer(({ params }: { params: any }) => {
                 ) : (
                     <main>
                         <div className="flex mx-8">
-                            <p className="font-bold mr-3 py-3">Your review</p>
+                            <p className="font-bold mr-3 py-3">Add a review</p>
                             {star.map((_, index) => (
-                                <button key={index}>
-                                    {index < userReview.score ? (
+                                <button
+                                    key={index}
+                                    onClick={() => setReview({ ...review, score: index + 1 })}
+                                >
+                                    {index < review.score ? (
                                         <AiFillStar size={20} color="#EEBD5C" />
                                     ) : (
                                         <AiOutlineStar size={20} color="#EEBD5C" />
@@ -204,11 +212,22 @@ const ProfileDetail = observer(({ params }: { params: any }) => {
                             ))}
                         </div>
                         <form className="mx-8 mb-2 pb-1 flex-col relative" action="">
-                            <p className="w-full min-h-[5rem] p-2 mb-5 box-border outline outline-1 outline-gray-200 rounded-lg resize-none text-sm font-light">
-                                {userReview.text}
-                            </p>
+                            <textarea
+                                className="w-full p-2 box-border outline outline-1 outline-gray-200 rounded-lg resize-none text-sm font-light"
+                                name="Review"
+                                rows={4}
+                                placeholder="Was it good?"
+                                onChange={(e) => setReview({ ...review, text: e.target.value })}
+                            >{userReview ? userReview.text : ""}</textarea>
+
                             <input
-                                className="bg-red-500 mr-0 ml-auto block my-1 py-1 px-3 rounded-xl text-white font-['Montserrat'] font-[500]"
+                                className="bg-green-400 mr-0 ml-auto my-1 py-1 px-3 rounded-xl text-white font-['Montserrat'] font-[500] block"
+                                type="submit"
+                                value="Update Review"
+                                onClick={() => { deleteReview(), submitReview() }}
+                            />
+                            <input
+                                className="bg-red-500 mr-0 ml-auto  my-1 py-1 px-3 rounded-xl text-white font-['Montserrat'] font-[500] block"
                                 type="submit"
                                 value="Delete Review"
                                 onClick={() => deleteReview()}

@@ -4,9 +4,9 @@ function Child(props: any) {
         <div className="flex-col h-full justify-between">
             <p className="font-bold text-xl">Are you sure?</p>
             <div className="flex justify-between mt-5">
-                <p className="mt-5 font-bold text-2xl ">{props.name}</p>
+                <p className="mt-5 font-bold text-2xl ">{props.nickname}</p>
                 <div className="w-24 h-24 overflow-hidden rounded-full">
-                    {/* <img className="object-hidden" src={props.images[0]} alt="nasImage" /> */}
+                    <img className="object-hidden" src={props.previewPicture} alt="nasImage" />
                 </div>
             </div>
             <div className="mt-3 py-2">
