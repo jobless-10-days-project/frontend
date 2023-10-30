@@ -8,8 +8,9 @@ import { CapturedLink } from "@/routing/CapturedLink";
 import axios from "axios";
 import { userStore } from "@/model/User";
 import { reaction } from "mobx";
+import { observer } from "mobx-react";
 
-export default function Page() {
+const Page = observer(() => {
   const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
     Authorization: "Bearer " + userStore.token,
@@ -302,4 +303,6 @@ export default function Page() {
       </div>
     </div>
   );
-}
+});
+
+export default Page;
