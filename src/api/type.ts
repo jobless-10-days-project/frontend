@@ -62,3 +62,34 @@ export type FindMeDto = {
     averageScore: number;
     reviews: Review[];
 }
+
+export type PurchaseHistory = {
+    _id: string,
+    userId: string,
+    studentId: string,
+    picture: string,
+    nickname: string,
+    price: number,
+    date: string
+}
+
+export type IncomingRequest = {
+    _id: String,
+    userId: string,
+    studentId: string,
+    picture: string,
+    nickname: string,
+    age: number,
+    gender: string
+}
+
+export type SentRequest = {
+    _id: string,
+    userId: string,
+    studentId: string,
+    picture: string,
+    nickname: string,
+    price: number,
+    status: string,
+    lineId: string
+}
