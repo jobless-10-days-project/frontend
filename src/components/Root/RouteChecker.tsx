@@ -38,11 +38,7 @@ const RouteChecker = observer(
     /**
      * use router.push here to avoid checking in this function again when pushed.
      */
-    const checkAuthRoute = async (
-      target: string,
-      push: boolean,
-      initial: boolean
-    ) => {
+    const checkAuthRoute = async (target: string, push: boolean) => {
       if (skipCheckRoutes.some((r) => target.startsWith(r))) return true;
 
       if (!userStore.token) {
@@ -70,7 +66,7 @@ const RouteChecker = observer(
         }
       }
 
-      if (initial) {
+      if (userStore.profile == null) {
         const result = await getUserProfile(userStore.token);
         const profile = result.result;
         if (profile) {
@@ -91,7 +87,7 @@ const RouteChecker = observer(
         // );
 
         setChecking(true);
-        checkAuthRoute(pathname, true, true).then(() => setChecking(false));
+        checkAuthRoute(pathname, true).then(() => setChecking(false));
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInitialized]);
@@ -102,7 +98,7 @@ const RouteChecker = observer(
         // changing route would need user initialization to finish loading before interacting
         // anyway
         setChecking(true);
-        const result = await checkAuthRoute(target, false, false);
+        const result = await checkAuthRoute(target, false);
         setChecking(false);
         return result;
       });

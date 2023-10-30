@@ -45,8 +45,8 @@ const Page = observer(() => {
     );
     if (token) {
       // console.log("before curToken", curToken, "setting to", token);
-
-      when(() => userStore.token === token).then(() => push("/"))
+      await userStore.logout();
+      when(() => userStore.token != null).then(() => push("/"))
       userStore.setToken(token);
     } else {
       toast("An error occurred: " + error);
