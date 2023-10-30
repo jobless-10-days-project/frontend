@@ -9,6 +9,7 @@ import { CapturedLink } from "@/routing/CapturedLink";
 import { observer } from "mobx-react";
 import { userStore } from "@/model/User";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const navlinks = [
   {
@@ -38,6 +39,7 @@ const Navbar = observer((props: any) => {
 
   const logout = () => {
     userStore.logout();
+    toast("Logged out successfully.");
     push("/first");
   };
   // const { token, logout } = useContext(UserContext);
