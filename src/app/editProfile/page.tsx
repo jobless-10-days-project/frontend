@@ -7,15 +7,20 @@ import { useState, useContext, useEffect } from "react";
 import { CapturedLink } from "@/routing/CapturedLink";
 import axios from "axios";
 import { userStore } from "@/model/User";
-import { reaction } from "mobx";
+import { reaction, when } from "mobx";
 import { observer } from "mobx-react";
-import { getUserProfile } from "@/api";
+import { getUserProfile, updateUserProfile } from "@/api";
+import { toast } from "react-toastify";
+import useCapturedRouting from "@/routing/useCapturedRouting";
 
 const Page = observer(() => {
+  const router = useCapturedRouting();
+
   const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
     Authorization: "Bearer " + userStore.token,
   });
+  const [updating, setUpdating] = useState(false);
 
   const dropdown = [
     {
@@ -73,15 +78,17 @@ const Page = observer(() => {
           Authorization: "Bearer " + token,
         })
     );
-    
-    axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
-        headers: headers,
-      })
-      .then((data) => {
-        // console.log(data.data[0]);
-        setValues(data.data[0]);
-      });
+    setValues(userStore.profile!);
+    setIsCheck(!!userStore.profile?.sellingStatus);
+
+    // axios
+    //   .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
+    //     headers: headers,
+    //   })
+    //   .then((data) => {
+    //     // console.log(data.data[0]);
+    //     setValues(data.data[0]);
+    //   });
   }, []);
 
   const onChange = (e: any) => {
@@ -90,24 +97,22 @@ const Page = observer(() => {
 
   const fileSelectedHandler = async (e: any) => {
     const imageForm = new FormData();
-    imageForm.append('file', e.target.files[0]);
+    imageForm.append("file", e.target.files[0]);
     axios({
       method: "post",
       url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/file`,
       data: imageForm,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + userStore.token
-      }
-    })
-    .then((data) => {
+        Authorization: "Bearer " + userStore.token,
+      },
+    }).then((data) => {
       console.log(data);
       axios({
         method: "get",
         url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/file/${data.data}`,
-        headers: headers
-      })
-      .then((newData) => {
+        headers: headers,
+      }).then((newData) => {
         setValues({ ...values, [e.target.name]: newData.data });
       });
     });
@@ -123,43 +128,45 @@ const Page = observer(() => {
       index = 2;
     }
     const imageForm = new FormData();
-    imageForm.append('file', e.target.files[0]);
+    imageForm.append("file", e.target.files[0]);
     axios({
       method: "post",
       url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/file`,
       data: imageForm,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + userStore.token
-      }
-    })
-    .then((data) => {
+        Authorization: "Bearer " + userStore.token,
+      },
+    }).then((data) => {
       console.log(data);
       axios({
         method: "get",
         url: `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/file/${data.data}`,
-        headers: headers
-      })
-      .then((newData) => {
-        let temp = {...values};
+        headers: headers,
+      }).then((newData) => {
+        let temp = { ...values };
         temp.supplementPictures[index] = newData.data;
         setValues(temp);
       });
     });
   };
 
-  const submitForm = () => {
-    axios
-      .patch(
-        `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/update`,
-        values,
-        {
-          headers: headers,
-        }
-      )
-      .then((data) => {
-        console.log(data);
-      });
+  const submitForm = async () => {
+    setUpdating(true);
+
+    const result = await updateUserProfile(userStore.token!, {
+      ...values,
+      sellingStatus: isCheck,
+    });
+    console.log("server sent", result);
+    if (result.result) {
+      await userStore.updateProfile(result.result);
+      router.push("/");
+    } else {
+      toast("An error occured: " + result.error);
+    }
+
+    setUpdating(false);
   };
 
   const [isCheck, setIsCheck] = useState(false);
@@ -210,9 +217,15 @@ const Page = observer(() => {
       required: { isCheck },
     },
   ];
-  console.log(values);
+
   return (
-    <div className="w-full h-full">
+    <div
+      className={`w-full h-screen ${
+        updating
+          ? "opacity-50 pointer-events-none"
+          : "opacity-100 pointer-events-auto"
+      }`}
+    >
       <div className="p-10 w-full">
         <p className="text-4xl font-bold mb-4">Edit Profile</p>
         <InputBox
@@ -337,14 +350,12 @@ const Page = observer(() => {
               Cancel
             </button>
           </CapturedLink>
-          <CapturedLink href="/">
-            <button
-              onClick={submitForm}
-              className="bg-[#5AD94E] text-white border-none py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl"
-            >
-              Save
-            </button>
-          </CapturedLink>
+          <button
+            onClick={submitForm}
+            className="bg-[#5AD94E] text-white border-none py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>

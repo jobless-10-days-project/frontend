@@ -24,6 +24,16 @@ export class UserStore {
     this.profile = val;
   }
 
+  public async updateProfile(val: FindMeDto | null) {
+    const reset = when(() => userStore.profile == null);
+    userStore.setProfile(null);
+    await reset;
+
+    const set = when(() => userStore.profile != null);
+    userStore.setProfile(val);
+    await set;
+  }
+
   public async logout() {
     const promise = when(() => this.profile == null && this.token == null);
     this.setToken(null);

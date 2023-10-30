@@ -89,3 +89,21 @@ export const getUserProfile = async (token: string): Promise<APIResult<FindMeDto
         return { error: (error.response?.data as any).message }
     }
 }
+// { ...values, sellingStatus: isCheck }
+export const updateUserProfile = async (token: string, data: FindMeDto): Promise<APIResult<FindMeDto>> => {
+    try {
+        const result = await axios.patch(
+            `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/update`,
+            data,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                },
+            }
+        )
+        return { result: result.data };
+    } catch (e) {
+        const error = e as AxiosError;
+        return { error: (error.response?.data as any).message }
+    }
+}
