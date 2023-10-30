@@ -3,10 +3,29 @@
 import Dropdown from "@/components/Input/Dropdown";
 import InputBox from "@/components/Input/InputBox";
 import { BsCheck } from "react-icons/bs";
-import { useState } from "react";
+import { UserContext } from "@/contexts/User";
+import { useState, useContext, useEffect } from "react";
 import { CapturedLink } from "@/routing/CapturedLink";
+import axios from "axios";
 
 export default function Page() {
+  const { token } = useContext(UserContext);
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+
+  /* useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
+        headers: headers,
+      })
+      .then((data) => {
+        console.log(data.data[0]);
+        values(data.data[0].purchaseHistories);
+      });
+  }, []); */
   const dropdown = [
     {
       id: 1,
@@ -54,12 +73,10 @@ export default function Page() {
   };
 
   const fileSelectedHandler = async (e: any) => {
-    const data = new FileReader();
-    data.addEventListener("load", () => {
-      setValues({ ...values, [e.target.name]: data.result });
-    });
-    data.readAsDataURL(e.target.files[0]);
+    setValues({ ...values, [e.target.name]: e.target.files[0] });
   };
+
+  const submitForm = () => {};
 
   const [isCheck, setIsCheck] = useState(false);
 
@@ -232,7 +249,10 @@ export default function Page() {
         )}
         <div className="flex w-full justify-around mt-4">
           <CapturedLink href="/">
-            <button className="bg-white text-[#ABA3A3] border-2 border-[#D9D9D9] py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl">
+            <button
+              onClick={() => submitForm()}
+              className="bg-white text-[#ABA3A3] border-2 border-[#D9D9D9] py-2 w-[120px] flex items-center justify-center font-semibold text-2xl rounded-2xl"
+            >
               Cancel
             </button>
           </CapturedLink>
