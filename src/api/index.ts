@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { FindMeDto } from "./type";
 
 export type APIResult<T> = {
     error?: undefined;
@@ -68,6 +69,21 @@ export const userEditedProfile = async (token: string): Promise<APIResult<boolea
             }
         );
         return { result: response.data };
+    } catch (e) {
+        const error = e as AxiosError;
+        return { error: (error.response?.data as any).message }
+    }
+}
+
+export const getUserProfile = async (token: string): Promise<APIResult<FindMeDto>> => {
+    try {
+        const result = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/user/find/me`, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+        console.log('from api', result.data);
+        return { result: result.data[0] as FindMeDto };
     } catch (e) {
         const error = e as AxiosError;
         return { error: (error.response?.data as any).message }
