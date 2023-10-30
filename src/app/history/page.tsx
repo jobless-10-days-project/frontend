@@ -48,7 +48,7 @@ const Page = observer(() => {
         <div className="flex justify-end mb-4">
           <div className=" flex justify-center items-center w-36 h-36">
             <img
-              src="../meen.png"
+              src={userStore.profile?.previewPicture}
               className="rounded-full w-full h-full"
               alt=""
             />
