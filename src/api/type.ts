@@ -39,3 +39,26 @@ export type ReviewDto = {
     score: number;
     text: string;
 }
+
+export type FindMeDto = {
+    _id: string;
+    studentId: string;
+    balance: number;
+    sellingStatus: boolean;
+    nickname: string;
+    faculty: string;
+    degree: number;
+    age: number;
+    gender: string;
+    purchaseHistories: PurchaseHistory[];
+    previewPicture: string;
+    supplementPictures: string[];
+    price: number;
+    lineId: string;
+    sold: number;
+    description: string;
+    incomingRequests: IncomingRequest[];
+    sentRequests: SentRequest[];
+    averageScore: number;
+    reviews: Review[];
+}
